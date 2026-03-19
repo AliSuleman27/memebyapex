@@ -2,419 +2,352 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MemeByApex — Brainrot HQ 🧠💀</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>MemeByApex</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#000;--card:#111;--border:#222;--text:#fff;--text2:#aaa;--accent:#ff3b5c;--accent2:#8b5cf6;--like-red:#ff2d55}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+:root{--bg:#000;--card:#111;--border:#222;--text:#fafafa;--text2:#a8a8a8;--accent:#e1306c;--blue:#0095f6}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 a{color:inherit;text-decoration:none}
 
-/* Top Nav */
-.top-nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-.top-nav .logo{font-size:22px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.top-nav .nav-icons{display:flex;gap:16px;font-size:22px;cursor:pointer}
-.top-nav .nav-icons span:hover{opacity:.7}
+/* Header */
+.header{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;height:50px}
+.header h1{font-size:22px;font-weight:700;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header .refresh-btn{background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px}
 
-/* Stories Bar */
-.stories-bar{display:flex;gap:14px;padding:14px 16px;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none}
-.stories-bar::-webkit-scrollbar{display:none}
-.story{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;cursor:pointer}
-.story .ring{width:66px;height:66px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
-.story .ring img{width:100%;height:100%;border-radius:50%;border:3px solid var(--bg);object-fit:cover}
-.story .name{font-size:11px;color:var(--text2);max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+/* Stories */
+.stories{position:fixed;top:50px;left:0;right:0;z-index:90;background:var(--bg);border-bottom:1px solid var(--border);display:flex;gap:12px;padding:10px 16px;overflow-x:auto;scrollbar-width:none}
+.stories::-webkit-scrollbar{display:none}
+.story{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;flex-shrink:0}
+.story .ring{width:62px;height:62px;border-radius:50%;padding:3px;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+.story .ring.active{background:var(--blue)}
+.story .ring.viewed{background:#555}
+.story .avatar{width:100%;height:100%;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid var(--bg)}
+.story span{font-size:11px;color:var(--text2);max-width:64px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-/* Category Tabs */
-.cat-tabs{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border);position:sticky;top:53px;z-index:99;background:var(--bg)}
-.cat-tabs::-webkit-scrollbar{display:none}
-.cat-tab{padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;background:var(--card);border:1px solid var(--border);white-space:nowrap;cursor:pointer;transition:.2s}
-.cat-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
-.cat-tab:hover{opacity:.85}
+/* Tabs */
+.tabs{position:fixed;top:132px;left:0;right:0;z-index:80;background:var(--bg);display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:10px 16px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:.2s}
+.tab.active{color:var(--text);border-bottom-color:var(--text)}
+
+/* Main content */
+.content{padding-top:180px;padding-bottom:60px;min-height:100vh}
 
 /* Feed */
-.feed{max-width:600px;margin:0 auto;padding-bottom:80px}
-.post{border-bottom:8px solid var(--border);background:var(--card)}
-.post-header{display:flex;align-items:center;padding:12px 14px;gap:10px}
-.post-header .avatar{width:36px;height:36px;border-radius:50%;object-fit:cover}
-.post-header .info{flex:1}
-.post-header .info .username{font-size:14px;font-weight:700}
-.post-header .info .category-badge{font-size:11px;color:var(--accent);font-weight:500}
-.post-header .more{font-size:20px;cursor:pointer;color:var(--text2)}
-
-/* Media */
-.post-media{position:relative;width:100%;background:#000;cursor:pointer}
-.post-media iframe{width:100%;aspect-ratio:9/16;max-height:580px;border:none;display:block}
-.post-media img{width:100%;display:block}
-.post-media.landscape iframe{aspect-ratio:16/9;max-height:400px}
-.post-media.square iframe,.post-media.square img{aspect-ratio:1/1}
-
-/* Double-tap heart */
-.heart-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:100px;pointer-events:none;z-index:10;opacity:0;transition:none}
-.heart-overlay.pop{animation:heartPop .8s ease-out forwards}
-@keyframes heartPop{0%{transform:translate(-50%,-50%) scale(0);opacity:1}15%{transform:translate(-50%,-50%) scale(1.3);opacity:1}30%{transform:translate(-50%,-50%) scale(1);opacity:1}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.4)}}
-
-/* Actions */
+.feed{max-width:600px;margin:0 auto}
+.post{background:var(--card);border-bottom:1px solid var(--border);margin-bottom:2px}
+.post-header{display:flex;align-items:center;padding:10px 14px;gap:10px}
+.post-header .sub-icon{width:32px;height:32px;border-radius:50%;background:#333;display:flex;align-items:center;justify-content:center;font-size:16px}
+.post-header .sub-info{flex:1}
+.post-header .sub-name{font-size:13px;font-weight:600}
+.post-header .post-time{font-size:11px;color:var(--text2)}
+.post-title{padding:0 14px 8px;font-size:14px;line-height:1.4}
+.post-media{position:relative;width:100%;background:#0a0a0a;cursor:pointer;display:flex;align-items:center;justify-content:center;min-height:200px}
+.post-media img{width:100%;display:block;max-height:80vh;object-fit:contain}
+.post-media video{width:100%;display:block;max-height:80vh;object-fit:contain}
 .post-actions{display:flex;align-items:center;padding:10px 14px;gap:16px}
-.post-actions .left{display:flex;gap:16px;flex:1}
-.action-btn{font-size:24px;cursor:pointer;transition:.15s;background:none;border:none;color:var(--text);padding:0}
-.action-btn:hover{opacity:.7}
-.action-btn.liked{color:var(--like-red);transform:scale(1.1)}
-.action-btn.saved{color:#f5c518}
+.post-actions button{background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;display:flex;align-items:center;gap:4px}
+.post-actions button.liked{color:#ed4956}
+.post-actions .stats{margin-left:auto;font-size:12px;color:var(--text2)}
+.heart-anim{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:80px;opacity:0;pointer-events:none;z-index:5}
+.heart-anim.show{animation:heartPop .8s ease forwards}
+@keyframes heartPop{0%{transform:translate(-50%,-50%) scale(0);opacity:1}30%{transform:translate(-50%,-50%) scale(1.2);opacity:1}50%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
 
-.post-likes{padding:0 14px 4px;font-size:13px;font-weight:700}
-.post-caption{padding:4px 14px 10px;font-size:13px;line-height:1.5}
-.post-caption .cap-user{font-weight:700;margin-right:6px}
-.post-caption .hashtag{color:#8b9cf7}
+/* Grid (Explore) */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:600px;margin:0 auto;padding:0 2px}
+.grid-item{aspect-ratio:1;overflow:hidden;cursor:pointer;position:relative;background:#111}
+.grid-item img,.grid-item video{width:100%;height:100%;object-fit:cover}
+.grid-item .vid-icon{position:absolute;top:8px;right:8px;font-size:16px}
 
-/* Reels Section */
-.reels-section{display:none;width:100%}
-.reels-container{height:calc(100vh - 53px - 44px);overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
-.reels-container::-webkit-scrollbar{display:none}
-.reel{height:100%;scroll-snap-align:start;position:relative;display:flex;align-items:center;justify-content:center;background:#000}
-.reel iframe{width:100%;height:100%;border:none;min-height:400px}
-.reel-side{position:absolute;right:12px;bottom:120px;display:flex;flex-direction:column;gap:20px;align-items:center;z-index:5}
-.reel-side .rbtn{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
-.reel-side .rbtn span:first-child{font-size:28px}
-.reel-side .rbtn span:last-child{font-size:11px;color:var(--text2)}
-.reel-info{position:absolute;bottom:60px;left:14px;right:60px;z-index:5}
-.reel-info .reel-user{font-weight:700;font-size:14px}
-.reel-info .reel-desc{font-size:13px;color:var(--text2);margin-top:4px}
+/* Reels */
+.reels{height:calc(100vh - 60px);overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;padding-top:0!important}
+.reels::-webkit-scrollbar{display:none}
+.reel{height:calc(100vh - 60px);scroll-snap-align:start;position:relative;display:flex;align-items:center;justify-content:center;background:#000}
+.reel video{width:100%;height:100%;object-fit:contain}
+.reel-info{position:absolute;bottom:80px;left:14px;right:60px;z-index:2}
+.reel-info .sub-name{font-size:14px;font-weight:700;margin-bottom:4px}
+.reel-info .reel-title{font-size:13px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.reel-actions-side{position:absolute;right:10px;bottom:80px;display:flex;flex-direction:column;gap:20px;align-items:center}
+.reel-actions-side button{background:none;border:none;color:#fff;font-size:24px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.reel-actions-side button span{font-size:11px}
 
 /* Bottom Nav */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--bg);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));max-width:600px;margin:0 auto}
-.bnav{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;color:var(--text2);cursor:pointer;background:none;border:none;padding:4px 12px}
-.bnav.active{color:var(--text)}
-.bnav .icon{font-size:24px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--bg);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));height:50px}
+.bottom-nav button{background:none;border:none;color:var(--text2);font-size:24px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:0 12px}
+.bottom-nav button.active{color:var(--text)}
+.bottom-nav button span{font-size:9px}
 
-/* Explore Grid */
-.explore-section{display:none;padding:8px}
-.explore-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-.explore-grid .explore-item{aspect-ratio:1;overflow:hidden;cursor:pointer;position:relative}
-.explore-grid .explore-item img{width:100%;height:100%;object-fit:cover}
-.explore-grid .explore-item iframe{width:100%;height:100%;border:none;pointer-events:none}
-.explore-grid .explore-item .play-icon{position:absolute;top:8px;right:8px;font-size:18px}
+/* Loading */
+.loader{text-align:center;padding:40px;color:var(--text2)}
+.spinner{width:30px;height:30px;border:3px solid var(--border);border-top-color:var(--text);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* Favorites */
-.fav-section{display:none;padding:16px}
-.fav-section h2{font-size:20px;margin-bottom:16px}
-.fav-empty{text-align:center;color:var(--text2);padding:60px 20px}
-.fav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+/* Lightbox */
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;cursor:zoom-out}
+.lightbox.open{display:flex}
+.lightbox img{max-width:95vw;max-height:95vh;object-fit:contain}
 
 /* Footer */
-.site-footer{text-align:center;padding:30px 16px 100px;color:var(--text2);font-size:12px}
-.site-footer .brand{font-size:16px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.footer{text-align:center;padding:20px;font-size:12px;color:var(--text2);border-top:1px solid var(--border)}
 
-/* Toast */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#333;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;transition:.3s;z-index:999;pointer-events:none}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* Error */
+.error-msg{text-align:center;padding:40px 20px;color:var(--text2)}
+.error-msg button{margin-top:12px;padding:8px 20px;background:var(--blue);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px}
 
-/* Share Modal */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end;justify-content:center}
-.modal-overlay.show{display:flex}
-.share-modal{background:#222;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px}
-.share-modal h3{text-align:center;margin-bottom:16px;font-size:16px}
-.share-options{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
-.share-opt{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text2)}
-.share-opt .sicon{width:50px;height:50px;border-radius:50%;background:#333;display:flex;align-items:center;justify-content:center;font-size:22px}
-.share-modal .close-modal{text-align:center;margin-top:16px;padding:12px;color:var(--text2);cursor:pointer;font-weight:600}
-
-@media(min-width:768px){
-  .feed,.bottom-nav,.explore-section,.fav-section,.reels-container{max-width:600px;margin-left:auto;margin-right:auto}
-}
+/* Reels content offset fix */
+.reels .content-area{padding-top:0}
 </style>
 </head>
 <body>
 
-<!-- Top Nav -->
-<nav class="top-nav">
-  <div class="logo">MemeByApex</div>
-  <div class="nav-icons">
-    <span onclick="toggleDarkLight()" title="Toggle theme">🌙</span>
-    <span onclick="showToast('Notifications coming soon!')">🔔</span>
-  </div>
-</nav>
-
-<!-- Stories Bar -->
-<div class="stories-bar" id="storiesBar"></div>
-
-<!-- Category Tabs -->
-<div class="cat-tabs" id="catTabs"></div>
-
-<!-- Main Feed -->
-<div class="feed" id="feedSection"></div>
-
-<!-- Reels -->
-<div class="reels-section" id="reelsSection">
-  <div class="reels-container" id="reelsContainer"></div>
+<div class="header">
+  <h1>MemeByApex</h1>
+  <button class="refresh-btn" onclick="refreshFeed()" title="Refresh">🔄</button>
 </div>
 
-<!-- Explore -->
-<div class="explore-section" id="exploreSection">
-  <div class="explore-grid" id="exploreGrid"></div>
+<div class="stories" id="stories"></div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="content" id="content"></div>
+
+<div class="bottom-nav">
+  <button class="active" onclick="switchView('home',this)"><span style="font-size:22px">🏠</span><span>Home</span></button>
+  <button onclick="switchView('explore',this)"><span style="font-size:22px">🔍</span><span>Explore</span></button>
+  <button onclick="switchView('reels',this)"><span style="font-size:22px">🎬</span><span>Reels</span></button>
+  <button onclick="refreshFeed()"><span style="font-size:22px">🔄</span><span>Refresh</span></button>
 </div>
 
-<!-- Favorites -->
-<div class="fav-section" id="favSection">
-  <h2>💾 Saved</h2>
-  <div id="favContent"></div>
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="">
 </div>
-
-<!-- Footer -->
-<div class="site-footer" id="siteFooter">
-  <div class="brand">MemeByApex</div>
-  <p style="margin-top:8px">Made by Wadeem for Doublespeed</p>
-  <p style="margin-top:4px">© 2026 · All memes belong to their creators</p>
-</div>
-
-<!-- Bottom Nav -->
-<nav class="bottom-nav">
-  <button class="bnav active" onclick="switchTab('home')"><span class="icon">🏠</span>Home</button>
-  <button class="bnav" onclick="switchTab('explore')"><span class="icon">🔍</span>Explore</button>
-  <button class="bnav" onclick="switchTab('reels')"><span class="icon">🎬</span>Reels</button>
-  <button class="bnav" onclick="switchTab('saved')"><span class="icon">💾</span>Saved</button>
-</nav>
-
-<!-- Share Modal -->
-<div class="modal-overlay" id="shareModal">
-  <div class="share-modal">
-    <h3>Share</h3>
-    <div class="share-options">
-      <div class="share-opt" onclick="copyLink()"><div class="sicon">🔗</div>Copy Link</div>
-      <div class="share-opt" onclick="shareTwitter()"><div class="sicon">𝕏</div>Twitter</div>
-      <div class="share-opt" onclick="shareWhatsApp()"><div class="sicon">💬</div>WhatsApp</div>
-      <div class="share-opt" onclick="shareTelegram()"><div class="sicon">✈️</div>Telegram</div>
-    </div>
-    <div class="close-modal" onclick="closeShareModal()">Cancel</div>
-  </div>
-</div>
-
-<!-- Toast -->
-<div class="toast" id="toast"></div>
 
 <script>
-// ===== CONTENT DATABASE =====
-const CATEGORIES = ['All','🇮🇹 Italian Brainrot','🇮🇳 Bollywood Brainrot','🐸 Classic Memes','💪 Sigma/Gigachad','🚽 Skibidi/Gen-Z','🥰 Wholesome'];
-
-const CONTENT = [
-  // Italian Brainrot
-  {id:1,cat:'🇮🇹 Italian Brainrot',type:'video',user:'brainrot.italia',avatar:'🐊',title:'Bombardiro Crocodilo',caption:'Bombardiro Crocodilo theme song 🐊💣 #italianbrainrot #bombardiro',src:'https://www.youtube.com/embed/bDjqcUOdu0M',aspect:'portrait',likes:42300},
-  {id:2,cat:'🇮🇹 Italian Brainrot',type:'video',user:'tung.sahur.official',avatar:'🥁',title:'Tung Tung Tung Sahur',caption:'TUNG TUNG TUNG SAHUR 🥁🔥 The sound that haunts your dreams #tungtungsahur',src:'https://www.youtube.com/embed/nFAMRPe3eNg',aspect:'portrait',likes:38100},
-  {id:3,cat:'🇮🇹 Italian Brainrot',type:'video',user:'patapim.official',avatar:'🎩',title:'Brim Brim Patapim',caption:'Brim brim brim PATAPIM 🎩✨ #brimbrimpatapim #brainrot',src:'https://www.youtube.com/embed/KGXJiOzbjGE',aspect:'portrait',likes:29500},
-  {id:4,cat:'🇮🇹 Italian Brainrot',type:'video',user:'tralalero.gang',avatar:'🦈',title:'Tralalero Tralala',caption:'Tralalero Tralala 🦈🎶 shark on land energy #tralalero',src:'https://www.youtube.com/embed/UT0lGeZoeks',aspect:'portrait',likes:55800},
-  {id:5,cat:'🇮🇹 Italian Brainrot',type:'video',user:'lirili.zone',avatar:'🐱',title:'Lirili Larila Cat',caption:'Lirili Larila 🐱 the cutest Italian brainrot #lirili',src:'https://www.youtube.com/embed/TIx0GBPHEiQ',aspect:'portrait',likes:31200},
-  {id:6,cat:'🇮🇹 Italian Brainrot',type:'video',user:'brainrot.italia',avatar:'🐊',title:'All Italian Brainrot Characters',caption:'Every Italian Brainrot character ranked 🇮🇹🧠 #italianbrainrot #compilation',src:'https://www.youtube.com/embed/vblqp1_gkpA',aspect:'landscape',likes:67000},
-
-  // Bollywood Brainrot
-  {id:7,cat:'🇮🇳 Bollywood Brainrot',type:'video',user:'desi.memer',avatar:'🇮🇳',title:'Hera Pheri - Paisa Hi Paisa',caption:'25 din me paisa double 💰😂 #herapheri #bollywood #brainrot',src:'https://www.youtube.com/embed/CQYELLGrfhk',aspect:'landscape',likes:88200},
-  {id:8,cat:'🇮🇳 Bollywood Brainrot',type:'video',user:'bollywood.brain',avatar:'🎬',title:'Munna Bhai MBBS - Circuit Moments',caption:'Circuit bhai ka swag 😎🔥 #munnabhai #circuit #bollywoodmemes',src:'https://www.youtube.com/embed/yjJGMjXlwPY',aspect:'landscape',likes:45600},
-  {id:9,cat:'🇮🇳 Bollywood Brainrot',type:'video',user:'desi.sigma',avatar:'💀',title:'Baburao Apte Sigma Edit',caption:'Baburao is the OG sigma 🗿 #baburao #sigma #herapheri',src:'https://www.youtube.com/embed/Ge_8JxMPz-c',aspect:'portrait',likes:52400},
-  {id:10,cat:'🇮🇳 Bollywood Brainrot',type:'video',user:'desi.memer',avatar:'🇮🇳',title:'Phir Hera Pheri Best Scenes',caption:'Raju bhai supremacy 🙏😂 #phirherapheri #akshaykumar',src:'https://www.youtube.com/embed/KyR-FYwUpGg',aspect:'landscape',likes:73100},
-  {id:11,cat:'🇮🇳 Bollywood Brainrot',type:'video',user:'bollywood.brain',avatar:'🎬',title:'Welcome Movie Comedy',caption:'Majnu bhai ki painting 🎨😂 #welcome #nanapatekar',src:'https://www.youtube.com/embed/bVwuDBvgfyU',aspect:'landscape',likes:61300},
-
-  // Classic Memes
-  {id:12,cat:'🐸 Classic Memes',type:'image',user:'meme.archive',avatar:'🐸',title:'Drake Meme',caption:'Drake format never dies 🔥 #drake #meme #classic',src:'https://i.imgflip.com/9rh3i6.jpg',likes:125000},
-  {id:13,cat:'🐸 Classic Memes',type:'image',user:'meme.museum',avatar:'🏛️',title:'Distracted Boyfriend',caption:'The meme that defined a generation 👀 #distractedboyfriend #classic',src:'https://i.imgflip.com/1ur9b0.jpg',likes:98700},
-  {id:14,cat:'🐸 Classic Memes',type:'image',user:'meme.archive',avatar:'🐸',title:'Two Buttons',caption:'Every decision ever 😤 #twobuttons #relatable',src:'https://i.imgflip.com/1g8my4.jpg',likes:67800},
-  {id:15,cat:'🐸 Classic Memes',type:'image',user:'meme.museum',avatar:'🏛️',title:'Change My Mind',caption:'Change my mind: memes are art 🎨 #changemymind #crowder',src:'https://i.imgflip.com/24y43o.jpg',likes:82100},
-  {id:16,cat:'🐸 Classic Memes',type:'image',user:'meme.archive',avatar:'🐸',title:'Expanding Brain',caption:'Levels of intelligence 🧠 #expandingbrain #meme',src:'https://i.imgflip.com/1jwhww.jpg',likes:71400},
-  {id:17,cat:'🐸 Classic Memes',type:'image',user:'classic.memes',avatar:'😂',title:'This Is Fine',caption:'Everything is fine 🔥🐶 #thisisfine #mood',src:'https://i.imgflip.com/wxica.jpg',likes:94300},
-  {id:18,cat:'🐸 Classic Memes',type:'image',user:'meme.museum',avatar:'🏛️',title:'Disaster Girl',caption:'Some people just want to watch the world burn 🔥😈 #disastergirl',src:'https://i.imgflip.com/23ls.jpg',likes:88900},
-
-  // Sigma / Gigachad
-  {id:19,cat:'💪 Sigma/Gigachad',type:'video',user:'sigma.grindset',avatar:'🗿',title:'Gigachad Theme',caption:'Average fan vs average enjoyer 🗿💪 #gigachad #sigma',src:'https://www.youtube.com/embed/16HtEIjJxVg',aspect:'portrait',likes:120000},
-  {id:20,cat:'💪 Sigma/Gigachad',type:'video',user:'sigma.edits',avatar:'⚡',title:'Patrick Bateman Sigma',caption:'Sigma rule #1: Always have a morning routine 🪞 #patricktbateman #sigma',src:'https://www.youtube.com/embed/uTKhjMqIFgA',aspect:'portrait',likes:95300},
-  {id:21,cat:'💪 Sigma/Gigachad',type:'video',user:'sigma.grindset',avatar:'🗿',title:'Thomas Shelby Sigma Edit',caption:'I dont have enemies. I have lessons. 🗿🔥 #thomasshelby #peakyblinders #sigma',src:'https://www.youtube.com/embed/NeUJFn42bVA',aspect:'portrait',likes:87600},
-  {id:22,cat:'💪 Sigma/Gigachad',type:'video',user:'grind.daily',avatar:'💎',title:'Sigma Grindset Compilation',caption:'Wake up at 4am. Grind. Sleep. Repeat. 💪 #sigmagrindset #motivation',src:'https://www.youtube.com/embed/1TewCPi92ro',aspect:'portrait',likes:110500},
-  {id:23,cat:'💪 Sigma/Gigachad',type:'video',user:'sigma.edits',avatar:'⚡',title:'Gus Fring Sigma',caption:'I will kill your infant daughter 🗿 #gusfring #breakingbad #sigma',src:'https://www.youtube.com/embed/4vMfsEtFmlE',aspect:'portrait',likes:78900},
-
-  // Skibidi / Gen-Z
-  {id:24,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'skibidi.toilet',avatar:'🚽',title:'Skibidi Toilet',caption:'Skibidi bop bop bop yes yes 🚽💀 #skibiditoilet #genz',src:'https://www.youtube.com/embed/tsc3d2kMfLM',aspect:'portrait',likes:156000},
-  {id:25,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'ohio.final.boss',avatar:'💀',title:'Only in Ohio',caption:'Ohio is not a real place 💀 #ohio #onlyinohio #brainrot',src:'https://www.youtube.com/embed/r3-EqMTJz7U',aspect:'portrait',likes:89400},
-  {id:26,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'rizz.god',avatar:'😏',title:'Rizz Compilation',caption:'W rizz or L rizz? 😏 #rizz #genz #brainrot',src:'https://www.youtube.com/embed/If8F-sGnL3Q',aspect:'portrait',likes:104200},
-  {id:27,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'skibidi.toilet',avatar:'🚽',title:'Skibidi Toilet vs Cameraman',caption:'The lore goes DEEP 📚🚽 #skibiditoilet #cameraman',src:'https://www.youtube.com/embed/K8DBs0QLqq4',aspect:'portrait',likes:201000},
-  {id:28,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'sussy.baka',avatar:'📮',title:'Among Us in Real Life',caption:'SUSSY BAKA 📮 #amongus #sus #brainrot',src:'https://www.youtube.com/embed/dJ-3_XM2rVI',aspect:'portrait',likes:67800},
-  {id:29,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'genz.brain',avatar:'🧠',title:'Brainrot Vocabulary Test',caption:'Skibidi gyatt rizz ohio sigma fanum tax 🧠💀 #brainrot #genz',src:'https://www.youtube.com/embed/FG1gJiFNBWo',aspect:'portrait',likes:92100},
-
-  // Wholesome
-  {id:30,cat:'🥰 Wholesome',type:'video',user:'wholesome.daily',avatar:'🥰',title:'Dog Reunites With Owner',caption:'The way his tail wags 😭❤️ #wholesome #dogs #reunion',src:'https://www.youtube.com/embed/mI1wJIP2g9o',aspect:'landscape',likes:245000},
-  {id:31,cat:'🥰 Wholesome',type:'video',user:'cute.overload',avatar:'🐱',title:'Cat Being Adorable',caption:'I would die for this cat 🐱💕 #cats #cute #wholesome',src:'https://www.youtube.com/embed/hY7m5jjJ9mM',aspect:'landscape',likes:187000},
-  {id:32,cat:'🥰 Wholesome',type:'video',user:'wholesome.daily',avatar:'🥰',title:'Baby Laughing',caption:'This baby laugh cures depression 😂👶 #baby #wholesome #laugh',src:'https://www.youtube.com/embed/RP4abiHdQpc',aspect:'landscape',likes:312000},
-  {id:33,cat:'🥰 Wholesome',type:'image',user:'cute.overload',avatar:'🐱',title:'Smol Kitten',caption:'So smol 🥺💕 #kitten #cute #wholesome',src:'https://i.imgur.com/pn2Kdml.jpg',likes:156000},
-  {id:34,cat:'🥰 Wholesome',type:'video',user:'feel.good',avatar:'✨',title:'Random Acts of Kindness',caption:'Faith in humanity restored 🥹 #kindness #wholesome #faith',src:'https://www.youtube.com/embed/nwAYpLVyeFU',aspect:'landscape',likes:198000},
-  {id:35,cat:'🥰 Wholesome',type:'video',user:'wholesome.daily',avatar:'🥰',title:'Soldier Surprise Homecoming',caption:'Try not to cry challenge (impossible) 😭🇺🇸 #military #homecoming #wholesome',src:'https://www.youtube.com/embed/O5Yjb0Ycosmk',aspect:'landscape',likes:278000},
-
-  // More Italian
-  {id:36,cat:'🇮🇹 Italian Brainrot',type:'video',user:'capuccino.assassino',avatar:'☕',title:'Capuccino Assassino',caption:'Capuccino Assassino ☕🔪 the most dangerous coffee #italianbrainrot',src:'https://www.youtube.com/embed/6NQFM5VGU6w',aspect:'portrait',likes:44500},
-  {id:37,cat:'🇮🇹 Italian Brainrot',type:'video',user:'brainrot.italia',avatar:'🐊',title:'Glorbo Fruttodrago',caption:'Glorbo the fruit dragon 🐉🍎 Italian brainrot keeps evolving #glorbo',src:'https://www.youtube.com/embed/sqFa1IMqRew',aspect:'portrait',likes:27800},
-
-  // More memes
-  {id:38,cat:'🐸 Classic Memes',type:'image',user:'meme.archive',avatar:'🐸',title:'Surprised Pikachu',caption:'When you skip studying and fail the exam ⚡😮 #surprisedpikachu',src:'https://i.imgflip.com/2kbn1e.jpg',likes:105000},
-  {id:39,cat:'🐸 Classic Memes',type:'image',user:'classic.memes',avatar:'😂',title:'Woman Yelling at Cat',caption:'The collab we never knew we needed 🐱🗣️ #womanyelling #smudge',src:'https://i.imgflip.com/345v97.jpg',likes:115000},
-  {id:40,cat:'💪 Sigma/Gigachad',type:'video',user:'sigma.edits',avatar:'⚡',title:'Mike Ehrmantraut Sigma',caption:'Kid named finger 🗿 #mikeehrmantraut #sigma #breakingbad',src:'https://www.youtube.com/embed/WzhW20hLp6M',aspect:'portrait',likes:65400},
+const CATEGORIES = [
+  {key:'memes',name:'Memes',sub:'memes',emoji:'😂'},
+  {key:'dank',name:'Dank',sub:'dankmemes',emoji:'💀'},
+  {key:'desi',name:'Desi',sub:'IndianDankMemes',emoji:'🇮🇳'},
+  {key:'bollywood',name:'Bollywood',sub:'BollywoodMemes',emoji:'🎬'},
+  {key:'brainrot',name:'Brainrot',sub:'brainrot',emoji:'🧠'},
+  {key:'wholesome',name:'Wholesome',sub:'wholesomememes',emoji:'🥰'},
+  {key:'shitpost',name:'Shitpost',sub:'shitposting',emoji:'💩'}
 ];
 
-// ===== STATE =====
-let currentCat = 'All';
-let favorites = JSON.parse(localStorage.getItem('mba_favs')||'[]');
-let currentShareId = null;
+let allPosts = [];
+let currentCategory = 'all';
+let currentView = 'home';
+let likedPosts = new Set(JSON.parse(localStorage.getItem('liked')||'[]'));
+let loading = false;
+let after = {};
 
-// ===== STORIES =====
-function renderStories(){
-  const users = [...new Set(CONTENT.map(c=>c.user))].slice(0,12);
-  document.getElementById('storiesBar').innerHTML = users.map(u=>{
-    const c = CONTENT.find(x=>x.user===u);
-    return `<div class="story" onclick="showToast('Stories coming soon!')"><div class="ring"><img src="https://api.dicebear.com/7.x/fun-emoji/svg?seed=${u}" alt="${u}"></div><div class="name">${u}</div></div>`;
-  }).join('');
-}
+// Init stories
+const storiesEl = document.getElementById('stories');
+storiesEl.innerHTML = [{key:'all',name:'All',emoji:'🔥'},...CATEGORIES].map(c =>
+  `<div class="story" onclick="selectCategory('${c.key}')">
+    <div class="ring ${c.key==='all'?'active':''}"><div class="avatar">${c.emoji}</div></div>
+    <span>${c.name}</span>
+  </div>`
+).join('');
 
-// ===== CATEGORY TABS =====
-function renderTabs(){
-  document.getElementById('catTabs').innerHTML = CATEGORIES.map(c=>
-    `<div class="cat-tab${c===currentCat?' active':''}" onclick="filterCat('${c}')">${c}</div>`
-  ).join('');
-}
-function filterCat(cat){
-  currentCat=cat;
-  renderTabs();
-  renderFeed();
-}
+// Init tabs
+const tabsEl = document.getElementById('tabs');
+tabsEl.innerHTML = [{key:'all',name:'All'},...CATEGORIES].map(c =>
+  `<div class="tab ${c.key==='all'?'active':''}" onclick="selectCategory('${c.key}')">${c.name}</div>`
+).join('');
 
-// ===== FEED =====
-function renderFeed(){
-  const items = currentCat==='All'?CONTENT:CONTENT.filter(c=>c.cat===currentCat);
-  document.getElementById('feedSection').innerHTML = items.map(c=>postHTML(c)).join('') +
-    `<div class="site-footer"><div class="brand">MemeByApex</div><p style="margin-top:8px">Made by Wadeem for Doublespeed</p><p style="margin-top:4px">© 2026 · All memes belong to their creators</p></div>`;
-}
-
-function postHTML(c){
-  const isFav = favorites.includes(c.id);
-  const media = c.type==='video'
-    ? `<iframe src="${c.src}?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe>`
-    : `<img src="${c.src}" alt="${c.title}" loading="lazy">`;
-  const aspectClass = c.aspect==='landscape'?'landscape':c.aspect==='square'?'square':'';
-  return `<article class="post" data-id="${c.id}">
-    <div class="post-header">
-      <img class="avatar" src="https://api.dicebear.com/7.x/fun-emoji/svg?seed=${c.user}" alt="">
-      <div class="info"><div class="username">${c.user}</div><div class="category-badge">${c.cat}</div></div>
-      <div class="more" onclick="openShareModal(${c.id})">⋯</div>
-    </div>
-    <div class="post-media ${aspectClass}" ondblclick="doubleTapLike(this,${c.id})">
-      ${media}
-      <div class="heart-overlay">❤️</div>
-    </div>
-    <div class="post-actions">
-      <div class="left">
-        <button class="action-btn ${isLiked(c.id)?'liked':''}" onclick="toggleLike(this,${c.id})">❤️</button>
-        <button class="action-btn" onclick="showToast('Comments coming soon!')">💬</button>
-        <button class="action-btn" onclick="openShareModal(${c.id})">🔗</button>
-      </div>
-      <button class="action-btn ${isFav?'saved':''}" onclick="toggleSave(this,${c.id})">🔖</button>
-    </div>
-    <div class="post-likes" id="likes-${c.id}">${formatNum(c.likes + (isLiked(c.id)?1:0))} likes</div>
-    <div class="post-caption"><span class="cap-user">${c.user}</span>${c.caption}</div>
-  </article>`;
+function selectCategory(key) {
+  currentCategory = key;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.textContent.trim()===([{key:'all',name:'All'},...CATEGORIES].find(c=>c.key===key)?.name||'')));
+  document.querySelectorAll('.story .ring').forEach((r,i) => {
+    const cats = [{key:'all'},...CATEGORIES];
+    r.classList.toggle('active', cats[i]?.key===key);
+  });
+  renderView();
 }
 
-// ===== REELS =====
-function renderReels(){
-  const vids = CONTENT.filter(c=>c.type==='video');
-  document.getElementById('reelsContainer').innerHTML = vids.map(c=>`
-    <div class="reel">
-      <iframe src="${c.src}?rel=0&autoplay=0&modestbranding=1&playsinline=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
-      <div class="reel-side">
-        <div class="rbtn" onclick="showToast('Liked!')"><span>❤️</span><span>${formatNum(c.likes)}</span></div>
-        <div class="rbtn" onclick="showToast('Comments soon!')"><span>💬</span><span>Reply</span></div>
-        <div class="rbtn" onclick="openShareModal(${c.id})"><span>🔗</span><span>Share</span></div>
-        <div class="rbtn" onclick="toggleSaveReel(${c.id})"><span>🔖</span><span>Save</span></div>
-      </div>
-      <div class="reel-info"><div class="reel-user">${c.user}</div><div class="reel-desc">${c.caption}</div></div>
-    </div>
-  `).join('');
+function getFilteredPosts() {
+  if (currentCategory === 'all') return allPosts;
+  const cat = CATEGORIES.find(c => c.key === currentCategory);
+  return allPosts.filter(p => p.subreddit.toLowerCase() === cat?.sub.toLowerCase());
 }
 
-// ===== EXPLORE =====
-function renderExplore(){
-  const shuffled = [...CONTENT].sort(()=>Math.random()-.5);
-  document.getElementById('exploreGrid').innerHTML = shuffled.map(c=>{
-    if(c.type==='video') return `<div class="explore-item" onclick="switchTab('home');filterCat('${c.cat}')"><img src="https://img.youtube.com/vi/${getYTId(c.src)}/hqdefault.jpg" alt="${c.title}"><span class="play-icon">▶️</span></div>`;
-    return `<div class="explore-item" onclick="switchTab('home');filterCat('${c.cat}')"><img src="${c.src}" alt="${c.title}"></div>`;
-  }).join('');
+function isImage(p) {
+  return p.post_hint === 'image' || /\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i.test(p.url);
+}
+function isVideo(p) {
+  return p.is_video && p.media?.reddit_video?.fallback_url;
+}
+function getVideoUrl(p) {
+  return p.media.reddit_video.fallback_url.replace(/&amp;/g,'&');
+}
+function cleanUrl(u) { return (u||'').replace(/&amp;/g,'&'); }
+
+function timeAgo(utc) {
+  const s = Math.floor(Date.now()/1000 - utc);
+  if (s < 60) return 'now';
+  if (s < 3600) return Math.floor(s/60)+'m';
+  if (s < 86400) return Math.floor(s/3600)+'h';
+  return Math.floor(s/86400)+'d';
 }
 
-// ===== FAVORITES =====
-function renderFavorites(){
-  const favItems = CONTENT.filter(c=>favorites.includes(c.id));
-  if(!favItems.length){document.getElementById('favContent').innerHTML='<div class="fav-empty"><p style="font-size:40px">🔖</p><p style="margin-top:12px">Save posts to see them here</p></div>';return;}
-  document.getElementById('favContent').innerHTML = '<div class="fav-grid">'+favItems.map(c=>{
-    if(c.type==='video') return `<div class="explore-item"><img src="https://img.youtube.com/vi/${getYTId(c.src)}/hqdefault.jpg" alt="${c.title}"><span class="play-icon">▶️</span></div>`;
-    return `<div class="explore-item"><img src="${c.src}" alt="${c.title}"></div>`;
-  }).join('')+'</div>';
+function toggleLike(id, btn) {
+  if (likedPosts.has(id)) { likedPosts.delete(id); btn.classList.remove('liked'); btn.innerHTML='🤍'; }
+  else { likedPosts.add(id); btn.classList.add('liked'); btn.innerHTML='❤️'; }
+  localStorage.setItem('liked', JSON.stringify([...likedPosts]));
 }
 
-// ===== NAVIGATION =====
-function switchTab(tab){
-  document.querySelectorAll('.bnav').forEach((b,i)=>{b.classList.toggle('active',['home','explore','reels','saved'][i]===tab)});
-  document.getElementById('feedSection').style.display=tab==='home'?'':'none';
-  document.getElementById('siteFooter').style.display=tab==='home'?'':'none';
-  document.getElementById('exploreSection').style.display=tab==='explore'?'':'none';
-  document.getElementById('reelsSection').style.display=tab==='reels'?'':'none';
-  document.getElementById('favSection').style.display=tab==='saved'?'':'none';
-  document.querySelector('.stories-bar').style.display=tab==='home'?'':'none';
-  document.querySelector('.cat-tabs').style.display=(tab==='home'||tab==='explore')?'':'none';
-  if(tab==='reels')renderReels();
-  if(tab==='explore')renderExplore();
-  if(tab==='saved')renderFavorites();
-}
-
-// ===== INTERACTIONS =====
-let likedPosts = JSON.parse(localStorage.getItem('mba_likes')||'[]');
-function isLiked(id){return likedPosts.includes(id)}
-function toggleLike(btn,id){
-  if(likedPosts.includes(id)){likedPosts=likedPosts.filter(x=>x!==id);btn.classList.remove('liked')}
-  else{likedPosts.push(id);btn.classList.add('liked')}
-  localStorage.setItem('mba_likes',JSON.stringify(likedPosts));
-  const c=CONTENT.find(x=>x.id===id);
-  document.getElementById('likes-'+id).textContent=formatNum(c.likes+(isLiked(id)?1:0))+' likes';
-}
-function doubleTapLike(el,id){
-  if(!likedPosts.includes(id)){likedPosts.push(id);localStorage.setItem('mba_likes',JSON.stringify(likedPosts));
-    const btn=el.closest('.post').querySelector('.action-btn');btn.classList.add('liked');
-    const c=CONTENT.find(x=>x.id===id);document.getElementById('likes-'+id).textContent=formatNum(c.likes+1)+' likes';
+function doubleTapLike(e, id) {
+  const now = Date.now();
+  if (e.target._lastTap && now - e.target._lastTap < 300) {
+    likedPosts.add(id);
+    localStorage.setItem('liked', JSON.stringify([...likedPosts]));
+    const heart = e.currentTarget.querySelector('.heart-anim');
+    if (heart) { heart.classList.remove('show'); void heart.offsetWidth; heart.classList.add('show'); }
+    const btn = e.currentTarget.closest('.post')?.querySelector('.like-btn');
+    if (btn) { btn.classList.add('liked'); btn.innerHTML='❤️'; }
   }
-  const h=el.querySelector('.heart-overlay');h.classList.remove('pop');void h.offsetWidth;h.classList.add('pop');
-}
-function toggleSave(btn,id){
-  if(favorites.includes(id)){favorites=favorites.filter(x=>x!==id);btn.classList.remove('saved');showToast('Removed from saved')}
-  else{favorites.push(id);btn.classList.add('saved');showToast('Saved! 🔖')}
-  localStorage.setItem('mba_favs',JSON.stringify(favorites));
-}
-function toggleSaveReel(id){
-  if(favorites.includes(id)){favorites=favorites.filter(x=>x!==id);showToast('Removed from saved')}
-  else{favorites.push(id);showToast('Saved! 🔖')}
-  localStorage.setItem('mba_favs',JSON.stringify(favorites));
+  e.target._lastTap = now;
 }
 
-// ===== SHARE =====
-function openShareModal(id){currentShareId=id;document.getElementById('shareModal').classList.add('show')}
-function closeShareModal(){document.getElementById('shareModal').classList.remove('show')}
-function copyLink(){navigator.clipboard.writeText('https://alisuleman27.github.io/memebyapex/');closeShareModal();showToast('Link copied! 🔗')}
-function shareTwitter(){window.open('https://twitter.com/intent/tweet?text=Check+this+brainrot&url=https://alisuleman27.github.io/memebyapex/');closeShareModal()}
-function shareWhatsApp(){window.open('https://wa.me/?text=Check+this+brainrot+https://alisuleman27.github.io/memebyapex/');closeShareModal()}
-function shareTelegram(){window.open('https://t.me/share/url?url=https://alisuleman27.github.io/memebyapex/&text=Brainrot+content');closeShareModal()}
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
 
-// ===== UTILS =====
-function formatNum(n){if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n}
-function getYTId(url){const m=url.match(/embed\/([^?]+)/);return m?m[1]:''}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
-function toggleDarkLight(){document.body.style.background=document.body.style.background==='#fff'?'#000':'#fff';document.body.style.color=document.body.style.color==='#000'?'#fff':'#000'}
+function renderView() {
+  const posts = getFilteredPosts();
+  const content = document.getElementById('content');
 
-// Click outside share modal to close
-document.getElementById('shareModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeShareModal()});
+  if (currentView === 'home') {
+    content.style.paddingTop = '180px';
+    document.querySelector('.stories').style.display = 'flex';
+    document.querySelector('.tabs').style.display = 'flex';
+    content.innerHTML = '<div class="feed">' + posts.filter(p => isImage(p) || isVideo(p)).map(p => {
+      const liked = likedPosts.has(p.id);
+      let media = '';
+      if (isVideo(p)) {
+        media = `<video src="${getVideoUrl(p)}" controls playsinline loop muted preload="metadata"></video>`;
+      } else {
+        media = `<img src="${cleanUrl(p.url)}" alt="${p.title}" loading="lazy" onclick="openLightbox('${cleanUrl(p.url).replace(/'/g,"\\'")}')" onerror="this.parentElement.style.display='none'">`;
+      }
+      return `<div class="post">
+        <div class="post-header">
+          <div class="sub-icon">${CATEGORIES.find(c=>c.sub.toLowerCase()===p.subreddit.toLowerCase())?.emoji||'📌'}</div>
+          <div class="sub-info"><div class="sub-name">r/${p.subreddit}</div><div class="post-time">${timeAgo(p.created_utc)}</div></div>
+        </div>
+        <div class="post-title">${p.title}</div>
+        <div class="post-media" ondblclick="doubleTapLike(event,'${p.id}')">
+          ${media}
+          <div class="heart-anim">❤️</div>
+        </div>
+        <div class="post-actions">
+          <button class="like-btn ${liked?'liked':''}" onclick="toggleLike('${p.id}',this)">${liked?'❤️':'🤍'}</button>
+          <button>💬 ${p.num_comments}</button>
+          <span class="stats">⬆️ ${p.ups>=1000?(p.ups/1000).toFixed(1)+'k':p.ups}</span>
+        </div>
+      </div>`;
+    }).join('') + '</div><div class="footer">Made by Wadeem for Doublespeed ⚡ | Powered by Reddit</div>';
 
-// ===== INIT =====
-renderStories();renderTabs();renderFeed();
+  } else if (currentView === 'explore') {
+    content.style.paddingTop = '180px';
+    document.querySelector('.stories').style.display = 'flex';
+    document.querySelector('.tabs').style.display = 'flex';
+    const items = posts.filter(p => isImage(p));
+    content.innerHTML = '<div class="grid">' + items.map(p =>
+      `<div class="grid-item" onclick="openLightbox('${cleanUrl(p.url).replace(/'/g,"\\'")}')"><img src="${cleanUrl(p.url)}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`
+    ).join('') + '</div><div class="footer">Made by Wadeem for Doublespeed ⚡ | Powered by Reddit</div>';
+
+  } else if (currentView === 'reels') {
+    content.style.paddingTop = '0';
+    document.querySelector('.stories').style.display = 'none';
+    document.querySelector('.tabs').style.display = 'none';
+    const vids = posts.filter(p => isVideo(p));
+    if (!vids.length) {
+      content.innerHTML = '<div class="error-msg" style="padding-top:100px">No video posts found. Try refreshing!<br><button onclick="refreshFeed()">Refresh</button></div>';
+      return;
+    }
+    content.innerHTML = '<div class="reels">' + vids.map(p => {
+      const liked = likedPosts.has(p.id);
+      return `<div class="reel">
+        <video src="${getVideoUrl(p)}" controls playsinline loop preload="metadata" onclick="this.paused?this.play():this.pause()"></video>
+        <div class="reel-info"><div class="sub-name">r/${p.subreddit}</div><div class="reel-title">${p.title}</div></div>
+        <div class="reel-actions-side">
+          <button class="like-btn ${liked?'liked':''}" onclick="toggleLike('${p.id}',this)">${liked?'❤️':'🤍'}<span>${p.ups>=1000?(p.ups/1000).toFixed(1)+'k':p.ups}</span></button>
+          <button>💬<span>${p.num_comments}</span></button>
+        </div>
+      </div>`;
+    }).join('') + '</div>';
+
+    // Auto-play visible reel
+    const reelsContainer = content.querySelector('.reels');
+    if (reelsContainer) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          const v = e.target.querySelector('video');
+          if (v) { e.isIntersecting ? v.play().catch(()=>{}) : v.pause(); }
+        });
+      }, {root: reelsContainer, threshold: 0.6});
+      reelsContainer.querySelectorAll('.reel').forEach(r => observer.observe(r));
+    }
+  }
+}
+
+function switchView(view, btn) {
+  currentView = view;
+  document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderView();
+}
+
+async function fetchSubreddit(sub) {
+  const cached = sessionStorage.getItem('reddit_'+sub);
+  if (cached) {
+    try { return JSON.parse(cached); } catch(e) {}
+  }
+  try {
+    const r = await fetch(`https://www.reddit.com/r/${sub}/hot.json?limit=30&raw_json=1`, {headers:{'Accept':'application/json'}});
+    if (!r.ok) throw new Error(r.status);
+    const json = await r.json();
+    const posts = json.data.children.map(c => c.data).filter(p => !p.stickied && !p.over_18);
+    sessionStorage.setItem('reddit_'+sub, JSON.stringify(posts));
+    return posts;
+  } catch(e) {
+    console.error('Failed to fetch r/'+sub, e);
+    return [];
+  }
+}
+
+async function loadAll(force) {
+  if (loading) return;
+  loading = true;
+  const content = document.getElementById('content');
+  content.innerHTML = '<div class="loader"><div class="spinner"></div>Loading fresh memes...</div>';
+
+  if (force) {
+    CATEGORIES.forEach(c => sessionStorage.removeItem('reddit_'+c.sub));
+  }
+
+  const results = await Promise.all(CATEGORIES.map(c => fetchSubreddit(c.sub)));
+  allPosts = results.flat().sort(() => Math.random() - 0.5);
+  loading = false;
+  renderView();
+}
+
+function refreshFeed() {
+  loadAll(true);
+}
+
+// Infinite scroll
+window.addEventListener('scroll', () => {
+  if (currentView !== 'home' && currentView !== 'explore') return;
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+    // Could load more via after param, but for now we have enough
+  }
+});
+
+loadAll(false);
 </script>
 </body>
 </html>
