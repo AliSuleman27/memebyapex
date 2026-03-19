@@ -2,330 +2,419 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MemeByApex 🧠💀</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#000">
+<title>MemeByApex</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#000;--card:#111;--border:#222;--text:#fff;--text2:#888;--accent:#ff3b5c;--accent2:#8b5cf6}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#000;--card:#000;--border:#262626;--text:#f5f5f5;--text2:#a8a8a8;--link:#e0f1ff;--heart:#ff3040;--ig-gradient:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.4}
+a{color:inherit;text-decoration:none}
 
-/* Top Nav */
-.top-nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:22px;font-weight:900;background:linear-gradient(135deg,var(--accent),#FFE66D,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.refresh-btn{background:none;border:none;font-size:22px;cursor:pointer;transition:transform .3s}
-.refresh-btn:hover{transform:rotate(180deg)}
+/* Layout */
+.app{height:100%;display:flex;flex-direction:column}
+.top-bar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg);z-index:100}
+.top-bar .logo{font-family:'Segoe Script','Dancing Script',cursive;font-size:22px;font-weight:700;letter-spacing:-0.5px}
+.top-bar .icons{display:flex;gap:20px;align-items:center}
+.top-bar .icons svg{width:24px;height:24px;fill:none;stroke:var(--text);stroke-width:2;cursor:pointer}
+.content{flex:1;overflow:hidden;position:relative}
+.tab-page{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;-webkit-overflow-scrolling:touch}
+.tab-page.active{display:block}
+.tab-page.reels-page{overflow:hidden}
+.bottom-nav{height:49px;display:flex;align-items:center;justify-content:space-around;border-top:1px solid var(--border);flex-shrink:0;background:var(--bg);z-index:100}
+.bottom-nav .nav-item{display:flex;align-items:center;justify-content:center;width:48px;height:48px;cursor:pointer}
+.bottom-nav svg{width:24px;height:24px;fill:var(--text);stroke:none}
+.bottom-nav .nav-item.active svg{fill:var(--text)}
 
 /* Stories */
-.stories{display:flex;gap:14px;padding:14px 16px;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none}
+.stories{display:flex;gap:12px;padding:12px 16px;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none}
 .stories::-webkit-scrollbar{display:none}
-.story{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;cursor:pointer}
-.story .ring{width:66px;height:66px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
-.story .ring.active{background:linear-gradient(135deg,#58CC02,#46a302)}
-.story .ring .inner{width:100%;height:100%;border-radius:50%;border:3px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:28px;background:var(--card)}
-.story .name{font-size:11px;color:var(--text2);max-width:70px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.story{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
+.story-ring{width:62px;height:62px;border-radius:50%;padding:2px;background:var(--ig-gradient)}
+.story-ring.seen{background:#555}
+.story-avatar{width:100%;height:100%;border-radius:50%;border:3px solid var(--bg);object-fit:cover;background:#222}
+.story-name{font-size:11px;color:var(--text2);max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
 
-/* Category Tabs */
-.cat-tabs{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border);position:sticky;top:53px;z-index:99;background:var(--bg)}
-.cat-tabs::-webkit-scrollbar{display:none}
-.cat-tab{background:#1a1a1a;border:1px solid #2a2a2a;color:#888;padding:7px 16px;border-radius:50px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s}
-.cat-tab:hover{border-color:#444;color:#ccc}
-.cat-tab.active{background:#fff;color:#000;border-color:#fff}
+/* Skeleton */
+@keyframes shimmer{0%{background-position:-200px 0}100%{background-position:200px 0}}
+.skeleton{background:linear-gradient(90deg,#222 25%,#333 50%,#222 75%);background-size:400px 100%;animation:shimmer 1.2s infinite}
+.skel-post{padding:12px 16px;border-bottom:1px solid var(--border)}
+.skel-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.skel-avatar{width:32px;height:32px;border-radius:50%}
+.skel-line{height:12px;border-radius:4px}
+.skel-img{width:100%;aspect-ratio:1;border-radius:4px;margin-bottom:12px}
 
-/* Feed */
-.feed{max-width:600px;margin:0 auto;padding-bottom:80px}
-.post{border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:8px}
-.post-header{display:flex;align-items:center;gap:10px;padding:12px 16px}
-.post-avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
-.post-user{font-size:13px;font-weight:600}
-.post-sub{font-size:11px;color:var(--text2)}
-.post-media{width:100%;position:relative;background:#0a0a0a;cursor:pointer;overflow:hidden}
-.post-media img{width:100%;display:block;max-height:600px;object-fit:contain}
-.post-media video{width:100%;display:block;max-height:600px}
-.heart-fly{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:80px;pointer-events:none;opacity:0;transition:none}
-.heart-fly.pop{animation:heartPop .8s ease forwards}
-@keyframes heartPop{0%{transform:translate(-50%,-50%) scale(0);opacity:0}15%{transform:translate(-50%,-50%) scale(1.2);opacity:1}30%{transform:translate(-50%,-50%) scale(1);opacity:1}80%{opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
-.post-actions{display:flex;align-items:center;gap:16px;padding:10px 16px}
-.post-actions .act{font-size:22px;cursor:pointer;transition:transform .2s}
-.post-actions .act:hover{transform:scale(1.2)}
-.post-actions .act.liked{color:#ff2d55}
-.post-actions .spacer{flex:1}
-.post-likes{padding:0 16px;font-size:13px;font-weight:700}
-.post-title{padding:4px 16px 8px;font-size:13px;line-height:1.4}
-.post-title b{font-weight:700;margin-right:6px}
-
-/* Loading */
-.loading{text-align:center;padding:40px;color:#444}
-.spinner{width:36px;height:36px;border:3px solid #222;border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* Lightbox */
-.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
-.lightbox.show{display:flex}
-.lightbox img{max-width:95%;max-height:90vh;object-fit:contain;border-radius:8px}
-.lightbox-close{position:absolute;top:16px;right:20px;background:none;border:none;color:#fff;font-size:30px;cursor:pointer;z-index:201}
-
-/* Bottom Nav */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:100}
-.bnav{background:none;border:none;color:#555;font-size:10px;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 12px;transition:color .2s}
-.bnav.active{color:#fff}
-.bnav .icon{font-size:22px}
+/* Post */
+.post{border-bottom:1px solid var(--border)}
+.post-header{display:flex;align-items:center;padding:10px 12px}
+.post-header img{width:32px;height:32px;border-radius:50%;object-fit:cover;background:#222}
+.post-header .info{flex:1;margin-left:10px}
+.post-header .username{font-weight:600;font-size:13px}
+.post-header .more{cursor:pointer;padding:8px}
+.post-header .more svg{width:16px;height:16px;fill:var(--text)}
+.post-img-wrap{position:relative;width:100%;background:#111;min-height:200px;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-user-select:none;user-select:none}
+.post-img-wrap img{width:100%;display:block}
+.dbl-heart{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:80px;color:#fff;pointer-events:none;z-index:10;filter:drop-shadow(0 0 10px rgba(0,0,0,.5))}
+.dbl-heart.show{animation:dblHeart .8s ease forwards}
+@keyframes dblHeart{0%{transform:translate(-50%,-50%) scale(0);opacity:1}15%{transform:translate(-50%,-50%) scale(1.2);opacity:1}30%{transform:translate(-50%,-50%) scale(1);opacity:1}75%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+.post-actions{display:flex;align-items:center;padding:8px 12px}
+.post-actions .left{display:flex;gap:16px;flex:1}
+.post-actions svg{width:24px;height:24px;cursor:pointer;fill:none;stroke:var(--text);stroke-width:2}
+.post-actions .liked svg{fill:var(--heart);stroke:var(--heart)}
+.post-actions .saved svg{fill:var(--text);stroke:var(--text)}
+.post-details{padding:0 12px 12px}
+.post-details .likes{font-weight:600;font-size:13px;margin-bottom:4px}
+.post-details .caption{font-size:13px;margin-bottom:4px}
+.post-details .caption b{font-weight:600}
+.post-details .view-comments{color:var(--text2);font-size:13px;margin-bottom:2px}
+.post-details .time{color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+.suggested-label{padding:16px;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;color:var(--text2)}
 
 /* Explore */
-.explore-section{display:none;max-width:600px;margin:0 auto;padding:4px}
-.explore-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding-bottom:80px}
-.explore-item{aspect-ratio:1;overflow:hidden;cursor:pointer;position:relative}
-.explore-item img{width:100%;height:100%;object-fit:cover}
+.explore-search{padding:10px 16px;position:sticky;top:0;background:var(--bg);z-index:10}
+.explore-search input{width:100%;height:36px;border-radius:10px;border:none;background:#262626;color:var(--text);padding:0 16px;font-size:14px;outline:none}
+.explore-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:2px}
+.explore-grid .item{position:relative;overflow:hidden;background:#111;cursor:pointer}
+.explore-grid .item img{width:100%;height:100%;object-fit:cover;display:block}
+.explore-grid .item.tall{grid-row:span 2}
 
 /* Reels */
-.reels-section{display:none;width:100%}
-.reels-container{height:calc(100vh - 53px - 50px);overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;max-width:600px;margin:0 auto}
+.reels-container{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
 .reels-container::-webkit-scrollbar{display:none}
-.reel{height:calc(100vh - 53px - 50px);scroll-snap-align:start;position:relative;display:flex;align-items:center;justify-content:center;background:#000}
-.reel img{max-width:100%;max-height:100%;object-fit:contain}
-.reel-info{position:absolute;bottom:60px;left:16px;right:60px}
-.reel-user{font-size:14px;font-weight:700;margin-bottom:4px;text-shadow:0 1px 4px rgba(0,0,0,.8)}
-.reel-title{font-size:13px;color:#ddd;text-shadow:0 1px 4px rgba(0,0,0,.8);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.reel-side{position:absolute;right:12px;bottom:80px;display:flex;flex-direction:column;gap:20px;align-items:center}
-.reel-side .rbtn{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:#fff;cursor:pointer;text-shadow:0 1px 4px rgba(0,0,0,.8)}
-.reel-side .rbtn .ico{font-size:26px}
+.reel{height:100%;scroll-snap-align:start;position:relative;background:#000;display:flex;align-items:center;justify-content:center}
+.reel iframe{width:100%;height:100%;border:none;pointer-events:auto}
+.reel-overlay{position:absolute;right:8px;bottom:80px;display:flex;flex-direction:column;align-items:center;gap:20px;z-index:10}
+.reel-overlay .reel-btn{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
+.reel-overlay .reel-btn svg{width:28px;height:28px;fill:#fff;filter:drop-shadow(0 1px 3px rgba(0,0,0,.7))}
+.reel-overlay .reel-btn span{font-size:11px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.reel-info{position:absolute;left:12px;bottom:70px;right:60px;z-index:10}
+.reel-info .reel-user{font-weight:700;font-size:14px;margin-bottom:4px;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.reel-info .reel-desc{font-size:13px;color:#eee;margin-bottom:8px;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.reel-info .music-ticker{display:flex;align-items:center;gap:6px;font-size:12px;color:#ddd;overflow:hidden;white-space:nowrap}
+.reel-info .music-ticker .ticker-text{animation:ticker 8s linear infinite}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
 
-/* Error */
-.error-msg{text-align:center;padding:40px 20px;color:#666}
-.error-msg button{margin-top:12px;background:var(--accent);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-family:inherit;font-weight:600;cursor:pointer}
+/* Profile */
+.profile-page{padding:16px}
+.profile-header{display:flex;align-items:center;gap:20px;margin-bottom:16px}
+.profile-header .pfp{width:77px;height:77px;border-radius:50%;background:#222;object-fit:cover}
+.profile-stats{display:flex;flex:1;justify-content:space-around;text-align:center}
+.profile-stats .stat-num{font-weight:700;font-size:16px}
+.profile-stats .stat-label{font-size:12px;color:var(--text2)}
+.profile-name{font-weight:600;font-size:14px;margin-bottom:4px}
+.profile-bio{font-size:13px;color:var(--text2);margin-bottom:12px}
+.profile-btn{width:100%;padding:7px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text);font-weight:600;font-size:13px;cursor:pointer;margin-bottom:16px}
+.profile-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.profile-grid img{width:100%;aspect-ratio:1;object-fit:cover;background:#111}
 
-/* Toast */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#333;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;transition:all .3s;z-index:300;pointer-events:none}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* Pull to refresh */
+.ptr{text-align:center;padding:12px;color:var(--text2);font-size:12px;display:none}
+.ptr.show{display:block}
 
-.footer{text-align:center;padding:20px;color:#333;font-size:11px}
-
-@media(min-width:768px){.explore-grid{grid-template-columns:repeat(4,1fr)}}
+/* Scrollbar hide */
+.tab-page::-webkit-scrollbar{display:none}
+.tab-page{scrollbar-width:none}
 </style>
 </head>
 <body>
+<div class="app">
+  <div class="top-bar" id="topBar">
+    <div class="logo">MemeByApex</div>
+    <div class="icons">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+    </div>
+  </div>
 
-<div class="top-nav">
-  <div class="logo">MemeByApex</div>
-  <button class="refresh-btn" onclick="loadAll()" title="Refresh">🔄</button>
+  <div class="content">
+    <!-- Home -->
+    <div class="tab-page active" id="homePage">
+      <div class="ptr" id="homePtr">Pull to refresh...</div>
+      <div class="stories" id="stories"></div>
+      <div id="feedContainer"></div>
+    </div>
+    <!-- Explore -->
+    <div class="tab-page" id="explorePage">
+      <div class="explore-search"><input type="text" placeholder="Search"></div>
+      <div class="explore-grid" id="exploreGrid"></div>
+    </div>
+    <!-- Reels -->
+    <div class="tab-page reels-page" id="reelsPage">
+      <div class="reels-container" id="reelsContainer"></div>
+    </div>
+    <!-- Shop/Activity -->
+    <div class="tab-page" id="shopPage" style="display:none;padding:60px 20px;text-align:center;color:var(--text2)">
+      <svg style="width:48px;height:48px;margin-bottom:16px;fill:none;stroke:var(--text2);stroke-width:1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+      <p>Shop coming soon</p>
+    </div>
+    <!-- Profile -->
+    <div class="tab-page" id="profilePage">
+      <div class="profile-page">
+        <div class="profile-header">
+          <img class="pfp" src="https://i.pravatar.cc/150?img=68" alt="pfp">
+          <div class="profile-stats">
+            <div><div class="stat-num" id="postCount">0</div><div class="stat-label">Posts</div></div>
+            <div><div class="stat-num">42.0K</div><div class="stat-label">Followers</div></div>
+            <div><div class="stat-num">420</div><div class="stat-label">Following</div></div>
+          </div>
+        </div>
+        <div class="profile-name">MemeByApex 🔥</div>
+        <div class="profile-bio">Dankest memes on the internet 💀<br>DM for collabs • Daily posts</div>
+        <button class="profile-btn">Edit Profile</button>
+        <div class="profile-grid" id="profileGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav" id="bottomNav">
+    <div class="nav-item active" data-tab="home">
+      <svg viewBox="0 0 24 24"><path d="M9.005 16.545a2.997 2.997 0 012.997-2.997h0A2.997 2.997 0 0115 16.545V22H9.005V16.545zM22 10.998V22H15.01v-5.455a2.997 2.997 0 00-2.997-2.997h0a2.997 2.997 0 00-2.997 2.997V22H2V10.998l10-8.998z" fill="var(--text)" stroke="none"/></svg>
+    </div>
+    <div class="nav-item" data-tab="explore">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
+    <div class="nav-item" data-tab="reels">
+      <svg viewBox="0 0 24 24"><path d="M12.823 1l2.974 5.002h-5.58l-2.65-5.003h-1.93l2.65 5.003H3.71a2.5 2.5 0 00-1.71.68V22.5A1.5 1.5 0 003.5 24h17a1.5 1.5 0 001.5-1.5V7.5a1.5 1.5 0 00-1.5-1.5h-2.77L14.82 1h-1.997zM9.3 1L6.65 6H3.5A2.5 2.5 0 001 8.5v14A2.5 2.5 0 003.5 25h17a2.5 2.5 0 002.5-2.5v-14A2.5 2.5 0 0020.5 6h-1.62L15.88 1H9.3zM10.5 9.5l6.5 3.75-6.5 3.75V9.5z" fill="var(--text)" stroke="none"/></svg>
+    </div>
+    <div class="nav-item" data-tab="shop">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+    </div>
+    <div class="nav-item" data-tab="profile">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.5" fill="none" stroke="var(--text)" stroke-width="2"/><path d="M20 21c0-3.87-3.58-7-8-7s-8 3.13-8 7" fill="none" stroke="var(--text)" stroke-width="2"/></svg>
+    </div>
+  </div>
 </div>
-
-<div class="stories" id="stories"></div>
-<div class="cat-tabs" id="catTabs"></div>
-
-<div class="feed" id="feedSection">
-  <div id="feedContainer"></div>
-  <div class="footer">Made by Wadeem for Doublespeed ⚡ | Powered by Reddit</div>
-</div>
-
-<div class="explore-section" id="exploreSection">
-  <div class="explore-grid" id="exploreGrid"></div>
-</div>
-
-<div class="reels-section" id="reelsSection">
-  <div class="reels-container" id="reelsContainer"></div>
-</div>
-
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightboxImg" src="">
-</div>
-
-<div class="bottom-nav">
-  <button class="bnav active" onclick="switchTab('home')"><span class="icon">🏠</span>Home</button>
-  <button class="bnav" onclick="switchTab('explore')"><span class="icon">🔍</span>Explore</button>
-  <button class="bnav" onclick="switchTab('reels')"><span class="icon">🎬</span>Reels</button>
-  <button class="bnav" onclick="loadAll()"><span class="icon">🔄</span>Refresh</button>
-</div>
-
-<div class="toast" id="toast"></div>
 
 <script>
-const SUBS = [
-  {key:'memes', name:'Memes', emoji:'😂', sub:'memes'},
-  {key:'dank', name:'Dank', emoji:'💀', sub:'dankmemes'},
-  {key:'desi', name:'Desi', emoji:'🇮🇳', sub:'IndianDankMemes'},
-  {key:'bollywood', name:'Bollywood', emoji:'🎬', sub:'BollywoodMemes'},
-  {key:'brainrot', name:'Brainrot', emoji:'🧠', sub:'brainrot'},
-  {key:'wholesome', name:'Wholesome', emoji:'🥰', sub:'wholesomememes'},
-  {key:'shitpost', name:'Shitpost', emoji:'💩', sub:'shitposting'}
-];
+// State
+const state = {
+  feed: [],
+  explore: [],
+  liked: JSON.parse(localStorage.getItem('liked') || '{}'),
+  saved: JSON.parse(localStorage.getItem('saved') || '{}'),
+  currentTab: 'home',
+  loaded: false
+};
 
-let allPosts = [];
-let activeCat = 'all';
-let activeTab = 'home';
-let liked = JSON.parse(localStorage.getItem('mba_liked')||'[]');
+const storyNames = ['apex_memes','dank_lord','shitposter','meme.king','cursed.img','based_guy','touch.grass','no_cap','sigma.male','ratio_king','ded_inside','memequeen','vibe_check','ok_boomer'];
 
-// Stories
-function renderStories(){
-  document.getElementById('stories').innerHTML = 
-    `<div class="story" onclick="filterCat('all')"><div class="ring ${activeCat==='all'?'active':''}"><div class="inner">🔥</div></div><div class="name">All</div></div>` +
-    SUBS.map(s=>`<div class="story" onclick="filterCat('${s.key}')"><div class="ring ${activeCat===s.key?'active':''}"><div class="inner">${s.emoji}</div></div><div class="name">${s.name}</div></div>`).join('');
-}
+// SVG icons
+const icons = {
+  heart: `<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+  heartFill: `<svg viewBox="0 0 24 24" style="fill:var(--heart);stroke:var(--heart)"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+  comment: `<svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>`,
+  share: `<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
+  save: `<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>`
+};
 
-// Tabs
-function renderTabs(){
-  document.getElementById('catTabs').innerHTML = 
-    `<button class="cat-tab ${activeCat==='all'?'active':''}" onclick="filterCat('all')">All</button>` +
-    SUBS.map(s=>`<button class="cat-tab ${activeCat===s.key?'active':''}" onclick="filterCat('${s.key}')">${s.name}</button>`).join('');
-}
-
-function filterCat(cat){
-  activeCat = cat;
-  renderStories();
-  renderTabs();
-  renderFeed();
-}
-
-// Fetch from meme-api.com (CORS-friendly)
-async function fetchSub(sub, count=20){
-  try{
-    const r = await fetch(`https://meme-api.com/gimme/${sub}/${count}`);
-    const d = await r.json();
-    return (d.memes||[]).filter(m=>!m.nsfw&&!m.spoiler).map(m=>({
-      id: m.postLink,
-      title: m.title,
-      url: m.url,
-      sub: m.subreddit,
-      author: m.author,
-      ups: m.ups,
-      cat: SUBS.find(s=>s.sub.toLowerCase()===m.subreddit.toLowerCase())?.key || 'memes',
-      preview: m.preview?.[2] || m.url
-    }));
-  }catch(e){
-    console.error('Fetch error for',sub,e);
-    return [];
-  }
-}
-
-async function loadAll(){
-  const feed = document.getElementById('feedContainer');
-  feed.innerHTML = '<div class="loading"><div class="spinner"></div>Loading fresh memes...</div>';
-  
-  const promises = SUBS.map(s=>fetchSub(s.sub, 15));
-  const results = await Promise.all(promises);
-  allPosts = results.flat().sort(()=>Math.random()-.5);
-  
-  if(!allPosts.length){
-    feed.innerHTML = '<div class="error-msg">Failed to load memes 😢<br><button onclick="loadAll()">Try Again</button></div>';
-    return;
-  }
-  
-  renderFeed();
-  showToast(`Loaded ${allPosts.length} fresh memes 🔥`);
-}
-
-function renderFeed(){
-  const posts = activeCat==='all' ? allPosts : allPosts.filter(p=>p.cat===activeCat);
-  const feed = document.getElementById('feedContainer');
-  
-  if(!posts.length){
-    feed.innerHTML = '<div class="error-msg">No memes found for this category<br><button onclick="filterCat(\'all\')">Show All</button></div>';
-    return;
-  }
-  
-  feed.innerHTML = posts.map((p,i)=>{
-    const isLiked = liked.includes(p.id);
-    const color = ['#e74c3c','#3498db','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22'][i%7];
-    return `<div class="post">
-      <div class="post-header">
-        <div class="post-avatar" style="background:${color}">${p.author?p.author[0].toUpperCase():'?'}</div>
-        <div><div class="post-user">${p.author||'unknown'}</div><div class="post-sub">r/${p.sub}</div></div>
+// Init stories
+function renderStories() {
+  const c = document.getElementById('stories');
+  c.innerHTML = storyNames.map((n, i) => `
+    <div class="story">
+      <div class="story-ring${i > 4 ? ' seen' : ''}">
+        <img class="story-avatar" src="https://i.pravatar.cc/100?img=${i+10}" alt="">
       </div>
-      <div class="post-media" ondblclick="dblLike(this,'${encodeURI(p.id)}')">
-        <img src="${p.url}" alt="${p.title}" loading="lazy" onerror="this.parentElement.style.display='none'" onclick="openLightbox('${p.url.replace(/'/g,"\\'")}')">
-        <div class="heart-fly">❤️</div>
+      <span class="story-name">${n}</span>
+    </div>
+  `).join('');
+}
+
+// Skeleton
+function showSkeletons() {
+  const c = document.getElementById('feedContainer');
+  c.innerHTML = Array(3).fill('').map(() => `
+    <div class="skel-post">
+      <div class="skel-header">
+        <div class="skeleton skel-avatar"></div>
+        <div class="skeleton skel-line" style="width:120px"></div>
+      </div>
+      <div class="skeleton skel-img"></div>
+      <div class="skeleton skel-line" style="width:180px;margin-bottom:8px"></div>
+      <div class="skeleton skel-line" style="width:100px"></div>
+    </div>
+  `).join('');
+}
+
+// Fetch feed
+async function fetchFeed() {
+  showSkeletons();
+  const subs = [
+    ['memes', 20], ['dankmemes', 20], ['IndianDankMemes', 15],
+    ['BollywoodMemes', 10], ['wholesomememes', 15], ['shitposting', 15]
+  ];
+  const results = await Promise.allSettled(
+    subs.map(([s, n]) => fetch(`https://meme-api.com/gimme/${s}/${n}`).then(r => r.json()))
+  );
+  let posts = [];
+  results.forEach(r => {
+    if (r.status === 'fulfilled' && r.value.memes) {
+      posts.push(...r.value.memes.filter(m => !m.nsfw && m.url));
+    }
+  });
+  // Shuffle
+  for (let i = posts.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [posts[i], posts[j]] = [posts[j], posts[i]];
+  }
+  state.feed = posts;
+  state.explore = [...posts].sort(() => Math.random() - 0.5);
+  renderFeed();
+  renderExplore();
+  renderProfileGrid();
+  state.loaded = true;
+}
+
+function renderFeed() {
+  const c = document.getElementById('feedContainer');
+  c.innerHTML = state.feed.map((p, i) => {
+    const id = p.url;
+    const liked = state.liked[id];
+    const saved = state.saved[id];
+    const suggested = i > 0 && i % 8 === 0;
+    return (suggested ? `<div class="suggested-label"><span>Suggested for you</span></div>` : '') + `
+    <div class="post" data-id="${encodeURIComponent(id)}">
+      <div class="post-header">
+        <img src="https://i.pravatar.cc/64?u=${p.author}" alt="">
+        <div class="info"><div class="username">${p.author || 'anonymous'}</div></div>
+        <div class="more"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></div>
+      </div>
+      <div class="post-img-wrap" ondblclick="doubleTap(this,'${encodeURIComponent(id)}')">
+        <img src="${p.url}" alt="" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+        <div class="dbl-heart">❤️</div>
       </div>
       <div class="post-actions">
-        <span class="act ${isLiked?'liked':''}" onclick="toggleLike(this,'${encodeURI(p.id)}')">❤️</span>
-        <span class="act" onclick="openLightbox('${p.url.replace(/'/g,"\\'")}')">💬</span>
-        <span class="act" onclick="sharePost('${p.url}')">📤</span>
-        <span class="spacer"></span>
-        <span class="act" onclick="savePost('${p.url}')">🔖</span>
+        <div class="left">
+          <span class="${liked ? 'liked' : ''}" onclick="toggleLike(this,'${encodeURIComponent(id)}')">${liked ? icons.heartFill : icons.heart}</span>
+          <span>${icons.comment}</span>
+          <span onclick="sharePost('${encodeURIComponent(p.url)}')">${icons.share}</span>
+        </div>
+        <span class="${saved ? 'saved' : ''}" onclick="toggleSave(this,'${encodeURIComponent(id)}')">${icons.save}</span>
       </div>
-      <div class="post-likes">${formatNum(p.ups+(isLiked?1:0))} likes</div>
-      <div class="post-title"><b>r/${p.sub}</b>${escHtml(p.title)}</div>
+      <div class="post-details">
+        <div class="likes">${(Math.floor(Math.random() * 50000) + 100).toLocaleString()} likes</div>
+        <div class="caption"><b>${p.author || 'anonymous'}</b> ${p.title || ''}</div>
+        <div class="view-comments">View all ${Math.floor(Math.random() * 500)} comments</div>
+        <div class="time">${Math.floor(Math.random() * 23) + 1} hours ago</div>
+      </div>
     </div>`;
+  }).join('');
+  document.getElementById('postCount').textContent = state.feed.length;
+}
+
+function renderExplore() {
+  const g = document.getElementById('exploreGrid');
+  g.innerHTML = state.explore.slice(0, 60).map((p, i) => {
+    const tall = (i % 10 === 2 || i % 10 === 7);
+    return `<div class="item${tall ? ' tall' : ''}"><img src="${p.url}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`;
   }).join('');
 }
 
-// Explore
-function renderExplore(){
-  const posts = activeCat==='all' ? [...allPosts].sort(()=>Math.random()-.5) : allPosts.filter(p=>p.cat===activeCat);
-  document.getElementById('exploreGrid').innerHTML = posts.map(p=>
-    `<div class="explore-item" onclick="openLightbox('${p.url.replace(/'/g,"\\'")}')"><img src="${p.preview||p.url}" alt="${p.title}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`
-  ).join('');
+function renderProfileGrid() {
+  const g = document.getElementById('profileGrid');
+  g.innerHTML = state.feed.slice(0, 18).map(p => `<img src="${p.url}" alt="" loading="lazy" onerror="this.style.display='none'">`).join('');
 }
 
 // Reels
-function renderReels(){
-  const posts = [...allPosts].sort(()=>Math.random()-.5).slice(0,30);
-  document.getElementById('reelsContainer').innerHTML = posts.map(p=>
-    `<div class="reel">
-      <img src="${p.url}" alt="${p.title}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22/>'">
-      <div class="reel-info"><div class="reel-user">r/${p.sub} · ${p.author}</div><div class="reel-title">${escHtml(p.title)}</div></div>
-      <div class="reel-side">
-        <div class="rbtn" onclick="showToast('Liked! ❤️')"><span class="ico">❤️</span><span>${formatNum(p.ups)}</span></div>
-        <div class="rbtn" onclick="sharePost('${p.url}')"><span class="ico">📤</span><span>Share</span></div>
-        <div class="rbtn" onclick="savePost('${p.url}')"><span class="ico">🔖</span><span>Save</span></div>
+function renderReels() {
+  const vids = [
+    {id:'dQw4w9WgXcQ',user:'rickastley',desc:'Never Gonna Give You Up 🎵',music:'Rick Astley - Never Gonna Give You Up'},
+    {id:'kJQP7kiw5Fk',user:'luisfonsi',desc:'Despacito 🔥',music:'Luis Fonsi ft. Daddy Yankee'},
+    {id:'9bZkp7q19f0',user:'officialpsy',desc:'오빤 강남스타일 🐴',music:'PSY - Gangnam Style'},
+    {id:'OPf0YbXqDm0',user:'markronson',desc:'Uptown Funk you up! 💃',music:'Mark Ronson ft. Bruno Mars'},
+    {id:'JGwWNGJdvx8',user:'edsheeran',desc:'Shape of You ❤️',music:'Ed Sheeran - Shape of You'},
+    {id:'RgKAFK5djSk',user:'wizkhalifa',desc:'See You Again 🌅',music:'Wiz Khalifa ft. Charlie Puth'},
+    {id:'fJ9rUzIMcZQ',user:'queen',desc:'Is this the real life? 🎸',music:'Queen - Bohemian Rhapsody'},
+    {id:'hTWKbfoikeg',user:'nirvana',desc:'Here we are now, entertain us 🤘',music:'Nirvana - Smells Like Teen Spirit'},
+    {id:'YQHsXMglC9A',user:'adele',desc:'Hello from the other side 🎤',music:'Adele - Hello'},
+    {id:'kXYiU_JCYtU',user:'linkinpark',desc:"I've become so numb 💔",music:'Linkin Park - Numb'}
+  ];
+  const c = document.getElementById('reelsContainer');
+  c.innerHTML = vids.map(v => `
+    <div class="reel">
+      <iframe src="https://www.youtube.com/embed/${v.id}?autoplay=0&mute=1&loop=1&playlist=${v.id}&controls=0&playsinline=1&rel=0&showinfo=0&modestbranding=1" allow="autoplay;encrypted-media" allowfullscreen></iframe>
+      <div class="reel-overlay">
+        <div class="reel-btn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><span>${Math.floor(Math.random()*900+100)}K</span></div>
+        <div class="reel-btn"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span>${Math.floor(Math.random()*50+5)}K</span></div>
+        <div class="reel-btn"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>Share</span></div>
+        <div class="reel-btn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8" stroke="#000" stroke-width="2"/></svg><span>♫</span></div>
       </div>
-    </div>`
-  ).join('');
+      <div class="reel-info">
+        <div class="reel-user">@${v.user}</div>
+        <div class="reel-desc">${v.desc}</div>
+        <div class="music-ticker">♫ <span class="ticker-text">${v.music}</span></div>
+      </div>
+    </div>
+  `).join('');
 }
 
-// Navigation
-function switchTab(tab){
-  activeTab = tab;
-  document.querySelectorAll('.bnav').forEach((b,i)=>b.classList.toggle('active',['home','explore','reels','refresh'][i]===tab));
-  document.getElementById('feedSection').style.display = tab==='home'?'':'none';
-  document.getElementById('exploreSection').style.display = tab==='explore'?'':'none';
-  document.getElementById('reelsSection').style.display = tab==='reels'?'':'none';
-  document.querySelector('.stories').style.display = tab==='home'?'':'none';
-  document.querySelector('.cat-tabs').style.display = (tab==='home'||tab==='explore')?'':'none';
-  if(tab==='explore') renderExplore();
-  if(tab==='reels') renderReels();
+// Actions
+function doubleTap(el, id) {
+  id = decodeURIComponent(id);
+  const heart = el.querySelector('.dbl-heart');
+  heart.classList.remove('show');
+  void heart.offsetWidth;
+  heart.classList.add('show');
+  if (!state.liked[id]) {
+    state.liked[id] = true;
+    localStorage.setItem('liked', JSON.stringify(state.liked));
+    const post = el.closest('.post');
+    const btn = post.querySelector('.post-actions .left span:first-child');
+    btn.classList.add('liked');
+    btn.innerHTML = icons.heartFill;
+  }
 }
 
-// Interactions
-function toggleLike(el, id){
-  id = decodeURI(id);
-  if(liked.includes(id)){liked=liked.filter(x=>x!==id);el.classList.remove('liked')}
-  else{liked.push(id);el.classList.add('liked')}
-  localStorage.setItem('mba_liked',JSON.stringify(liked));
+function toggleLike(el, id) {
+  id = decodeURIComponent(id);
+  state.liked[id] = !state.liked[id];
+  if (!state.liked[id]) delete state.liked[id];
+  localStorage.setItem('liked', JSON.stringify(state.liked));
+  el.classList.toggle('liked');
+  el.innerHTML = state.liked[id] ? icons.heartFill : icons.heart;
 }
 
-function dblLike(el, id){
-  id = decodeURI(id);
-  if(!liked.includes(id)){liked.push(id);localStorage.setItem('mba_liked',JSON.stringify(liked))}
-  const h = el.querySelector('.heart-fly');
-  h.classList.remove('pop');void h.offsetWidth;h.classList.add('pop');
+function toggleSave(el, id) {
+  id = decodeURIComponent(id);
+  state.saved[id] = !state.saved[id];
+  if (!state.saved[id]) delete state.saved[id];
+  localStorage.setItem('saved', JSON.stringify(state.saved));
+  el.classList.toggle('saved');
 }
 
-function sharePost(url){
-  if(navigator.share){navigator.share({url})}
-  else{navigator.clipboard.writeText(url).then(()=>showToast('Link copied! 🔗')).catch(()=>{})}
+async function sharePost(url) {
+  url = decodeURIComponent(url);
+  if (navigator.share) {
+    try { await navigator.share({ url }); } catch(e) {}
+  } else {
+    await navigator.clipboard.writeText(url);
+  }
 }
 
-function savePost(url){
-  navigator.clipboard.writeText(url).then(()=>showToast('Saved to clipboard! 🔖')).catch(()=>{});
-}
-
-function openLightbox(src){
-  document.getElementById('lightboxImg').src=src;
-  document.getElementById('lightbox').classList.add('show');
-}
-function closeLightbox(){document.getElementById('lightbox').classList.remove('show')}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
-
-// Utils
-function formatNum(n){if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n||0}
-function escHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+// Tab switching
+const pages = { home: 'homePage', explore: 'explorePage', reels: 'reelsPage', shop: 'shopPage', profile: 'profilePage' };
+document.getElementById('bottomNav').addEventListener('click', e => {
+  const item = e.target.closest('.nav-item');
+  if (!item) return;
+  const tab = item.dataset.tab;
+  if (tab === state.currentTab) {
+    // Scroll to top
+    document.getElementById(pages[tab])?.scrollTo(0, 0);
+    return;
+  }
+  state.currentTab = tab;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  item.classList.add('active');
+  document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pages[tab]).classList.add('active');
+  // Toggle top bar
+  document.getElementById('topBar').style.display = (tab === 'reels') ? 'none' : '';
+});
 
 // Init
 renderStories();
-renderTabs();
-loadAll();
+renderReels();
+fetchFeed();
 </script>
 </body>
 </html>
