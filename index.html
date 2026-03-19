@@ -2,364 +2,419 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MemeByApex 😂</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MemeByApex — Brainrot HQ 🧠💀</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;900&display=swap');
-  
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: #0a0a0a;
-    color: #fff;
-    min-height: 100vh;
-  }
-  
-  /* Header */
-  .header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(10,10,10,0.9);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid #1a1a1a;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: 900;
-    background: linear-gradient(135deg, #FF6B6B, #FFE66D, #4ECDC4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  
-  .logo span { font-weight: 400; opacity: 0.7; }
-  
-  .shuffle-btn {
-    background: linear-gradient(135deg, #FF6B6B, #ee5a24);
-    border: none;
-    color: #fff;
-    padding: 10px 24px;
-    border-radius: 50px;
-    font-family: inherit;
-    font-weight: 700;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  
-  .shuffle-btn:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(255,107,107,0.4); }
-  .shuffle-btn:active { transform: scale(0.95); }
-  
-  /* Category Tabs */
-  .tabs {
-    display: flex;
-    gap: 8px;
-    padding: 16px 24px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  .tabs::-webkit-scrollbar { display: none; }
-  
-  .tab {
-    background: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    color: #888;
-    padding: 8px 18px;
-    border-radius: 50px;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-  }
-  
-  .tab:hover { border-color: #444; color: #ccc; }
-  .tab.active { background: #fff; color: #000; border-color: #fff; }
-  
-  /* Meme Grid */
-  .meme-grid {
-    columns: 2;
-    column-gap: 12px;
-    padding: 12px 24px 100px;
-  }
-  
-  @media (min-width: 768px) { .meme-grid { columns: 3; } }
-  @media (min-width: 1200px) { .meme-grid { columns: 4; } }
-  
-  .meme-card {
-    break-inside: avoid;
-    margin-bottom: 12px;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #141414;
-    border: 1px solid #1a1a1a;
-    transition: all 0.3s;
-    cursor: pointer;
-    animation: fadeUp 0.5s ease both;
-  }
-  
-  .meme-card:hover { transform: translateY(-4px); border-color: #333; box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
-  
-  .meme-card img {
-    width: 100%;
-    display: block;
-    transition: transform 0.3s;
-  }
-  
-  .meme-card:hover img { transform: scale(1.03); }
-  
-  .meme-info {
-    padding: 12px 14px;
-  }
-  
-  .meme-name {
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 4px;
-    line-height: 1.3;
-  }
-  
-  .meme-year {
-    font-size: 11px;
-    color: #666;
-  }
-  
-  .meme-tag {
-    display: inline-block;
-    background: #1a1a1a;
-    color: #888;
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 4px;
-    margin-top: 6px;
-    font-weight: 600;
-  }
-  
-  /* Lightbox */
-  .lightbox {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.95);
-    z-index: 200;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  
-  .lightbox.show { display: flex; }
-  
-  .lightbox img {
-    max-width: 90%;
-    max-height: 85vh;
-    border-radius: 12px;
-    object-fit: contain;
-  }
-  
-  .lightbox-close {
-    position: absolute;
-    top: 20px;
-    right: 24px;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 32px;
-    cursor: pointer;
-    opacity: 0.7;
-  }
-  
-  .lightbox-close:hover { opacity: 1; }
-  
-  .lightbox-title {
-    position: absolute;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-  }
-  
-  /* Footer */
-  .footer {
-    text-align: center;
-    padding: 40px 24px;
-    color: #333;
-    font-size: 12px;
-  }
-  
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  /* Loading */
-  .loading {
-    text-align: center;
-    padding: 60px;
-    color: #444;
-    font-size: 14px;
-  }
-  
-  .loading .spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid #222;
-    border-top-color: #FF6B6B;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 16px;
-  }
-  
-  @keyframes spin { to { transform: rotate(360deg); } }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#000;--card:#111;--border:#222;--text:#fff;--text2:#aaa;--accent:#ff3b5c;--accent2:#8b5cf6;--like-red:#ff2d55}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+
+/* Top Nav */
+.top-nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.top-nav .logo{font-size:22px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.top-nav .nav-icons{display:flex;gap:16px;font-size:22px;cursor:pointer}
+.top-nav .nav-icons span:hover{opacity:.7}
+
+/* Stories Bar */
+.stories-bar{display:flex;gap:14px;padding:14px 16px;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none}
+.stories-bar::-webkit-scrollbar{display:none}
+.story{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;cursor:pointer}
+.story .ring{width:66px;height:66px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+.story .ring img{width:100%;height:100%;border-radius:50%;border:3px solid var(--bg);object-fit:cover}
+.story .name{font-size:11px;color:var(--text2);max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+
+/* Category Tabs */
+.cat-tabs{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border);position:sticky;top:53px;z-index:99;background:var(--bg)}
+.cat-tabs::-webkit-scrollbar{display:none}
+.cat-tab{padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;background:var(--card);border:1px solid var(--border);white-space:nowrap;cursor:pointer;transition:.2s}
+.cat-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.cat-tab:hover{opacity:.85}
+
+/* Feed */
+.feed{max-width:600px;margin:0 auto;padding-bottom:80px}
+.post{border-bottom:8px solid var(--border);background:var(--card)}
+.post-header{display:flex;align-items:center;padding:12px 14px;gap:10px}
+.post-header .avatar{width:36px;height:36px;border-radius:50%;object-fit:cover}
+.post-header .info{flex:1}
+.post-header .info .username{font-size:14px;font-weight:700}
+.post-header .info .category-badge{font-size:11px;color:var(--accent);font-weight:500}
+.post-header .more{font-size:20px;cursor:pointer;color:var(--text2)}
+
+/* Media */
+.post-media{position:relative;width:100%;background:#000;cursor:pointer}
+.post-media iframe{width:100%;aspect-ratio:9/16;max-height:580px;border:none;display:block}
+.post-media img{width:100%;display:block}
+.post-media.landscape iframe{aspect-ratio:16/9;max-height:400px}
+.post-media.square iframe,.post-media.square img{aspect-ratio:1/1}
+
+/* Double-tap heart */
+.heart-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:100px;pointer-events:none;z-index:10;opacity:0;transition:none}
+.heart-overlay.pop{animation:heartPop .8s ease-out forwards}
+@keyframes heartPop{0%{transform:translate(-50%,-50%) scale(0);opacity:1}15%{transform:translate(-50%,-50%) scale(1.3);opacity:1}30%{transform:translate(-50%,-50%) scale(1);opacity:1}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.4)}}
+
+/* Actions */
+.post-actions{display:flex;align-items:center;padding:10px 14px;gap:16px}
+.post-actions .left{display:flex;gap:16px;flex:1}
+.action-btn{font-size:24px;cursor:pointer;transition:.15s;background:none;border:none;color:var(--text);padding:0}
+.action-btn:hover{opacity:.7}
+.action-btn.liked{color:var(--like-red);transform:scale(1.1)}
+.action-btn.saved{color:#f5c518}
+
+.post-likes{padding:0 14px 4px;font-size:13px;font-weight:700}
+.post-caption{padding:4px 14px 10px;font-size:13px;line-height:1.5}
+.post-caption .cap-user{font-weight:700;margin-right:6px}
+.post-caption .hashtag{color:#8b9cf7}
+
+/* Reels Section */
+.reels-section{display:none}
+.reels-container{height:calc(100vh - 53px - 44px);overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
+.reels-container::-webkit-scrollbar{display:none}
+.reel{height:100%;scroll-snap-align:start;position:relative;display:flex;align-items:center;justify-content:center;background:#000}
+.reel iframe{width:100%;height:100%;border:none}
+.reel-side{position:absolute;right:12px;bottom:120px;display:flex;flex-direction:column;gap:20px;align-items:center;z-index:5}
+.reel-side .rbtn{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
+.reel-side .rbtn span:first-child{font-size:28px}
+.reel-side .rbtn span:last-child{font-size:11px;color:var(--text2)}
+.reel-info{position:absolute;bottom:60px;left:14px;right:60px;z-index:5}
+.reel-info .reel-user{font-weight:700;font-size:14px}
+.reel-info .reel-desc{font-size:13px;color:var(--text2);margin-top:4px}
+
+/* Bottom Nav */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--bg);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));max-width:600px;margin:0 auto}
+.bnav{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;color:var(--text2);cursor:pointer;background:none;border:none;padding:4px 12px}
+.bnav.active{color:var(--text)}
+.bnav .icon{font-size:24px}
+
+/* Explore Grid */
+.explore-section{display:none;padding:8px}
+.explore-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.explore-grid .explore-item{aspect-ratio:1;overflow:hidden;cursor:pointer;position:relative}
+.explore-grid .explore-item img{width:100%;height:100%;object-fit:cover}
+.explore-grid .explore-item iframe{width:100%;height:100%;border:none;pointer-events:none}
+.explore-grid .explore-item .play-icon{position:absolute;top:8px;right:8px;font-size:18px}
+
+/* Favorites */
+.fav-section{display:none;padding:16px}
+.fav-section h2{font-size:20px;margin-bottom:16px}
+.fav-empty{text-align:center;color:var(--text2);padding:60px 20px}
+.fav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+
+/* Footer */
+.site-footer{text-align:center;padding:30px 16px 100px;color:var(--text2);font-size:12px}
+.site-footer .brand{font-size:16px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* Toast */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#333;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;transition:.3s;z-index:999;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Share Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end;justify-content:center}
+.modal-overlay.show{display:flex}
+.share-modal{background:#222;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px}
+.share-modal h3{text-align:center;margin-bottom:16px;font-size:16px}
+.share-options{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.share-opt{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text2)}
+.share-opt .sicon{width:50px;height:50px;border-radius:50%;background:#333;display:flex;align-items:center;justify-content:center;font-size:22px}
+.share-modal .close-modal{text-align:center;margin-top:16px;padding:12px;color:var(--text2);cursor:pointer;font-weight:600}
+
+@media(min-width:768px){
+  .feed,.bottom-nav,.explore-section,.fav-section,.reels-container{max-width:600px;margin-left:auto;margin-right:auto}
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="logo">MemeByApex <span>😂</span></div>
-  <button class="shuffle-btn" onclick="shuffleMemes()">🎲 Shuffle</button>
+<!-- Top Nav -->
+<nav class="top-nav">
+  <div class="logo">MemeByApex</div>
+  <div class="nav-icons">
+    <span onclick="toggleDarkLight()" title="Toggle theme">🌙</span>
+    <span onclick="showToast('Notifications coming soon!')">🔔</span>
+  </div>
+</nav>
+
+<!-- Stories Bar -->
+<div class="stories-bar" id="storiesBar"></div>
+
+<!-- Category Tabs -->
+<div class="cat-tabs" id="catTabs"></div>
+
+<!-- Main Feed -->
+<div class="feed" id="feedSection"></div>
+
+<!-- Reels -->
+<div class="reels-section" id="reelsSection">
+  <div class="reels-container" id="reelsContainer"></div>
 </div>
 
-<div class="tabs" id="tabs"></div>
-<div class="meme-grid" id="memeGrid"></div>
-
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightboxImg" src="" alt="">
-  <div class="lightbox-title" id="lightboxTitle"></div>
+<!-- Explore -->
+<div class="explore-section" id="exploreSection">
+  <div class="explore-grid" id="exploreGrid"></div>
 </div>
 
-<div class="footer">
-  Made with 💀 by Wadeem for Doublespeed · Powered by memes
+<!-- Favorites -->
+<div class="fav-section" id="favSection">
+  <h2>💾 Saved</h2>
+  <div id="favContent"></div>
 </div>
+
+<!-- Footer -->
+<div class="site-footer" id="siteFooter">
+  <div class="brand">MemeByApex</div>
+  <p style="margin-top:8px">Made by Wadeem for Doublespeed</p>
+  <p style="margin-top:4px">© 2026 · All memes belong to their creators</p>
+</div>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <button class="bnav active" onclick="switchTab('home')"><span class="icon">🏠</span>Home</button>
+  <button class="bnav" onclick="switchTab('explore')"><span class="icon">🔍</span>Explore</button>
+  <button class="bnav" onclick="switchTab('reels')"><span class="icon">🎬</span>Reels</button>
+  <button class="bnav" onclick="switchTab('saved')"><span class="icon">💾</span>Saved</button>
+</nav>
+
+<!-- Share Modal -->
+<div class="modal-overlay" id="shareModal">
+  <div class="share-modal">
+    <h3>Share</h3>
+    <div class="share-options">
+      <div class="share-opt" onclick="copyLink()"><div class="sicon">🔗</div>Copy Link</div>
+      <div class="share-opt" onclick="shareTwitter()"><div class="sicon">𝕏</div>Twitter</div>
+      <div class="share-opt" onclick="shareWhatsApp()"><div class="sicon">💬</div>WhatsApp</div>
+      <div class="share-opt" onclick="shareTelegram()"><div class="sicon">✈️</div>Telegram</div>
+    </div>
+    <div class="close-modal" onclick="closeShareModal()">Cancel</div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
 <script>
-const memes = [
-  { name: "Distracted Boyfriend", year: "2017", cat: "classic", img: "https://i.imgflip.com/1ur9b0.jpg" },
-  { name: "Drake Hotline Bling", year: "2015", cat: "classic", img: "https://i.imgflip.com/30b1gx.jpg" },
-  { name: "Two Buttons", year: "2014", cat: "classic", img: "https://i.imgflip.com/1g8my4.jpg" },
-  { name: "Change My Mind", year: "2018", cat: "classic", img: "https://i.imgflip.com/24y43o.jpg" },
-  { name: "Expanding Brain", year: "2017", cat: "classic", img: "https://i.imgflip.com/1jwhww.jpg" },
-  { name: "Is This A Pigeon?", year: "2018", cat: "classic", img: "https://i.imgflip.com/1o00in.jpg" },
-  { name: "Woman Yelling at Cat", year: "2019", cat: "classic", img: "https://i.imgflip.com/345v97.jpg" },
-  { name: "Disaster Girl", year: "2005", cat: "classic", img: "https://i.imgflip.com/23ls.jpg" },
-  { name: "Hide the Pain Harold", year: "2011", cat: "classic", img: "https://i.imgflip.com/gk5el.jpg" },
-  { name: "Roll Safe", year: "2017", cat: "classic", img: "https://i.imgflip.com/1h7in3.jpg" },
-  { name: "Surprised Pikachu", year: "2018", cat: "reactions", img: "https://i.imgflip.com/2kbn1e.jpg" },
-  { name: "Stonks", year: "2017", cat: "reactions", img: "https://i.imgflip.com/2xscjb.png" },
-  { name: "This Is Fine", year: "2013", cat: "reactions", img: "https://i.imgflip.com/wx1aq.jpg" },
-  { name: "Monkey Puppet", year: "2016", cat: "reactions", img: "https://i.imgflip.com/2gnnjh.jpg" },
-  { name: "Panik Kalm Panik", year: "2020", cat: "reactions", img: "https://i.imgflip.com/3qqcim.png" },
-  { name: "Sad Pablo Escobar", year: "2020", cat: "reactions", img: "https://i.imgflip.com/3oevdk.jpg" },
-  { name: "Tuxedo Winnie The Pooh", year: "2019", cat: "reactions", img: "https://i.imgflip.com/2ybua0.png" },
-  { name: "Clown Applying Makeup", year: "2019", cat: "reactions", img: "https://i.imgflip.com/38el31.jpg" },
-  { name: "Always Has Been", year: "2020", cat: "space", img: "https://i.imgflip.com/46e43q.png" },
-  { name: "Bernie Sanders Mittens", year: "2021", cat: "viral", img: "https://i.imgflip.com/4umlof.jpg" },
-  { name: "Trade Offer", year: "2021", cat: "viral", img: "https://i.imgflip.com/54hjww.jpg" },
-  { name: "Buff Doge vs Cheems", year: "2020", cat: "viral", img: "https://i.imgflip.com/43a45p.png" },
-  { name: "Gru's Plan", year: "2018", cat: "classic", img: "https://i.imgflip.com/26jxvz.jpg" },
-  { name: "Left Exit 12", year: "2018", cat: "classic", img: "https://i.imgflip.com/22bdq6.jpg" },
-  { name: "One Does Not Simply", year: "2012", cat: "classic", img: "https://i.imgflip.com/1bij.jpg" },
-  { name: "Batman Slapping Robin", year: "2008", cat: "classic", img: "https://i.imgflip.com/9ehk.jpg" },
-  { name: "Waiting Skeleton", year: "2014", cat: "reactions", img: "https://i.imgflip.com/2fm6x.jpg" },
-  { name: "Running Away Balloon", year: "2017", cat: "reactions", img: "https://i.imgflip.com/1wz1x0.jpg" },
-  { name: "They're The Same Picture", year: "2018", cat: "reactions", img: "https://i.imgflip.com/2za3u1.jpg" },
-  { name: "Anakin Padme 4 Panel", year: "2021", cat: "viral", img: "https://i.imgflip.com/5c7lwq.png" },
-  { name: "Megamind No Bitches", year: "2022", cat: "viral", img: "https://i.imgflip.com/6edqei.png" },
-  { name: "UNO Draw 25", year: "2019", cat: "viral", img: "https://i.imgflip.com/3lmzyx.jpg" },
-  { name: "Boardroom Suggestion", year: "2012", cat: "classic", img: "https://i.imgflip.com/1jr46.jpg" },
-  { name: "Ancient Aliens Guy", year: "2010", cat: "classic", img: "https://i.imgflip.com/26am.jpg" },
-  { name: "Success Kid", year: "2007", cat: "classic", img: "https://i.imgflip.com/1bhk.jpg" },
-  { name: "Mocking SpongeBob", year: "2017", cat: "reactions", img: "https://i.imgflip.com/1otk96.jpg" },
-  // Desi / Bollywood Memes
-  { name: "Hera Pheri - 25 Din Mein Paisa Double", year: "2000", cat: "bollywood", img: "https://i.imgflip.com/7sjnsb.jpg" },
-  { name: "Baburao - Kya Kar Rahe Ho", year: "2000", cat: "bollywood", img: "https://i.imgflip.com/6gzlvh.jpg" },
-  { name: "Munna Bhai - Tension Nahi Lene Ka", year: "2003", cat: "bollywood", img: "https://i.imgflip.com/7e3bnp.jpg" },
-  { name: "3 Idiots - Aal Izz Well", year: "2009", cat: "bollywood", img: "https://i.imgflip.com/2/3sfoz0.jpg" },
-  { name: "Gangs of Wasseypur - Tumse Na Ho Payega", year: "2012", cat: "bollywood", img: "https://i.imgflip.com/6s83z5.jpg" },
-  { name: "Welcome - Utha Le Re Baba", year: "2007", cat: "bollywood", img: "https://i.imgflip.com/7iv5ij.jpg" },
-  { name: "Phir Hera Pheri - Paisa Hi Paisa", year: "2006", cat: "bollywood", img: "https://i.imgflip.com/7o3j4a.jpg" },
-  { name: "Sholay - Kitne Aadmi The", year: "1975", cat: "bollywood", img: "https://i.imgflip.com/7sjnz4.jpg" },
-  { name: "Dhamaal - Ae Chal Nikal", year: "2007", cat: "bollywood", img: "https://i.imgflip.com/7iv5zk.jpg" },
-  { name: "Garam Masala - Bahut Khoob", year: "2005", cat: "bollywood", img: "https://i.imgflip.com/7iv6ah.jpg" },
-  { name: "Andaz Apna Apna - Teja Main Hoon", year: "1994", cat: "bollywood", img: "https://i.imgflip.com/7sjobx.jpg" },
-  { name: "OMG - Mere Paas Aao", year: "2012", cat: "bollywood", img: "https://i.imgflip.com/7iv6mz.jpg" },
-  { name: "Bajrangi Bhaijaan - Bhai Ki Shaadi", year: "2015", cat: "bollywood", img: "https://i.imgflip.com/7iv6w0.jpg" },
-  { name: "Lagaan - Kya Hua Tera Vaada", year: "2001", cat: "bollywood", img: "https://i.imgflip.com/7sjovs.jpg" },
-  { name: "Chup Chup Ke - Sharma Ji", year: "2006", cat: "bollywood", img: "https://i.imgflip.com/7iv74d.jpg" }
+// ===== CONTENT DATABASE =====
+const CATEGORIES = ['All','🇮🇹 Italian Brainrot','🇮🇳 Bollywood Brainrot','🐸 Classic Memes','💪 Sigma/Gigachad','🚽 Skibidi/Gen-Z','🥰 Wholesome'];
+
+const CONTENT = [
+  // Italian Brainrot
+  {id:1,cat:'🇮🇹 Italian Brainrot',type:'video',user:'brainrot.italia',avatar:'🐊',title:'Bombardiro Crocodilo',caption:'Bombardiro Crocodilo theme song 🐊💣 #italianbrainrot #bombardiro',src:'https://www.youtube.com/embed/bDjqcUOdu0M',aspect:'portrait',likes:42300},
+  {id:2,cat:'🇮🇹 Italian Brainrot',type:'video',user:'tung.sahur.official',avatar:'🥁',title:'Tung Tung Tung Sahur',caption:'TUNG TUNG TUNG SAHUR 🥁🔥 The sound that haunts your dreams #tungtungsahur',src:'https://www.youtube.com/embed/nFAMRPe3eNg',aspect:'portrait',likes:38100},
+  {id:3,cat:'🇮🇹 Italian Brainrot',type:'video',user:'patapim.official',avatar:'🎩',title:'Brim Brim Patapim',caption:'Brim brim brim PATAPIM 🎩✨ #brimbrimpatapim #brainrot',src:'https://www.youtube.com/embed/KGXJiOzbjGE',aspect:'portrait',likes:29500},
+  {id:4,cat:'🇮🇹 Italian Brainrot',type:'video',user:'tralalero.gang',avatar:'🦈',title:'Tralalero Tralala',caption:'Tralalero Tralala 🦈🎶 shark on land energy #tralalero',src:'https://www.youtube.com/embed/UT0lGeZoeks',aspect:'portrait',likes:55800},
+  {id:5,cat:'🇮🇹 Italian Brainrot',type:'video',user:'lirili.zone',avatar:'🐱',title:'Lirili Larila Cat',caption:'Lirili Larila 🐱 the cutest Italian brainrot #lirili',src:'https://www.youtube.com/embed/TIx0GBPHEiQ',aspect:'portrait',likes:31200},
+  {id:6,cat:'🇮🇹 Italian Brainrot',type:'video',user:'brainrot.italia',avatar:'🐊',title:'All Italian Brainrot Characters',caption:'Every Italian Brainrot character ranked 🇮🇹🧠 #italianbrainrot #compilation',src:'https://www.youtube.com/embed/vblqp1_gkpA',aspect:'landscape',likes:67000},
+
+  // Bollywood Brainrot
+  {id:7,cat:'🇮🇳 Bollywood Brainrot',type:'video',user:'desi.memer',avatar:'🇮🇳',title:'Hera Pheri - Paisa Hi Paisa',caption:'25 din me paisa double 💰😂 #herapheri #bollywood #brainrot',src:'https://www.youtube.com/embed/CQYELLGrfhk',aspect:'landscape',likes:88200},
+  {id:8,cat:'🇮🇳 Bollywood Brainrot',type:'video',user:'bollywood.brain',avatar:'🎬',title:'Munna Bhai MBBS - Circuit Moments',caption:'Circuit bhai ka swag 😎🔥 #munnabhai #circuit #bollywoodmemes',src:'https://www.youtube.com/embed/yjJGMjXlwPY',aspect:'landscape',likes:45600},
+  {id:9,cat:'🇮🇳 Bollywood Brainrot',type:'video',user:'desi.sigma',avatar:'💀',title:'Baburao Apte Sigma Edit',caption:'Baburao is the OG sigma 🗿 #baburao #sigma #herapheri',src:'https://www.youtube.com/embed/Ge_8JxMPz-c',aspect:'portrait',likes:52400},
+  {id:10,cat:'🇮🇳 Bollywood Brainrot',type:'video',user:'desi.memer',avatar:'🇮🇳',title:'Phir Hera Pheri Best Scenes',caption:'Raju bhai supremacy 🙏😂 #phirherapheri #akshaykumar',src:'https://www.youtube.com/embed/KyR-FYwUpGg',aspect:'landscape',likes:73100},
+  {id:11,cat:'🇮🇳 Bollywood Brainrot',type:'video',user:'bollywood.brain',avatar:'🎬',title:'Welcome Movie Comedy',caption:'Majnu bhai ki painting 🎨😂 #welcome #nanapatekar',src:'https://www.youtube.com/embed/bVwuDBvgfyU',aspect:'landscape',likes:61300},
+
+  // Classic Memes
+  {id:12,cat:'🐸 Classic Memes',type:'image',user:'meme.archive',avatar:'🐸',title:'Drake Meme',caption:'Drake format never dies 🔥 #drake #meme #classic',src:'https://i.imgflip.com/9rh3i6.jpg',likes:125000},
+  {id:13,cat:'🐸 Classic Memes',type:'image',user:'meme.museum',avatar:'🏛️',title:'Distracted Boyfriend',caption:'The meme that defined a generation 👀 #distractedboyfriend #classic',src:'https://i.imgflip.com/1ur9b0.jpg',likes:98700},
+  {id:14,cat:'🐸 Classic Memes',type:'image',user:'meme.archive',avatar:'🐸',title:'Two Buttons',caption:'Every decision ever 😤 #twobuttons #relatable',src:'https://i.imgflip.com/1g8my4.jpg',likes:67800},
+  {id:15,cat:'🐸 Classic Memes',type:'image',user:'meme.museum',avatar:'🏛️',title:'Change My Mind',caption:'Change my mind: memes are art 🎨 #changemymind #crowder',src:'https://i.imgflip.com/24y43o.jpg',likes:82100},
+  {id:16,cat:'🐸 Classic Memes',type:'image',user:'meme.archive',avatar:'🐸',title:'Expanding Brain',caption:'Levels of intelligence 🧠 #expandingbrain #meme',src:'https://i.imgflip.com/1jwhww.jpg',likes:71400},
+  {id:17,cat:'🐸 Classic Memes',type:'image',user:'classic.memes',avatar:'😂',title:'This Is Fine',caption:'Everything is fine 🔥🐶 #thisisfine #mood',src:'https://i.imgflip.com/wxica.jpg',likes:94300},
+  {id:18,cat:'🐸 Classic Memes',type:'image',user:'meme.museum',avatar:'🏛️',title:'Disaster Girl',caption:'Some people just want to watch the world burn 🔥😈 #disastergirl',src:'https://i.imgflip.com/23ls.jpg',likes:88900},
+
+  // Sigma / Gigachad
+  {id:19,cat:'💪 Sigma/Gigachad',type:'video',user:'sigma.grindset',avatar:'🗿',title:'Gigachad Theme',caption:'Average fan vs average enjoyer 🗿💪 #gigachad #sigma',src:'https://www.youtube.com/embed/16HtEIjJxVg',aspect:'portrait',likes:120000},
+  {id:20,cat:'💪 Sigma/Gigachad',type:'video',user:'sigma.edits',avatar:'⚡',title:'Patrick Bateman Sigma',caption:'Sigma rule #1: Always have a morning routine 🪞 #patricktbateman #sigma',src:'https://www.youtube.com/embed/uTKhjMqIFgA',aspect:'portrait',likes:95300},
+  {id:21,cat:'💪 Sigma/Gigachad',type:'video',user:'sigma.grindset',avatar:'🗿',title:'Thomas Shelby Sigma Edit',caption:'I dont have enemies. I have lessons. 🗿🔥 #thomasshelby #peakyblinders #sigma',src:'https://www.youtube.com/embed/NeUJFn42bVA',aspect:'portrait',likes:87600},
+  {id:22,cat:'💪 Sigma/Gigachad',type:'video',user:'grind.daily',avatar:'💎',title:'Sigma Grindset Compilation',caption:'Wake up at 4am. Grind. Sleep. Repeat. 💪 #sigmagrindset #motivation',src:'https://www.youtube.com/embed/1TewCPi92ro',aspect:'portrait',likes:110500},
+  {id:23,cat:'💪 Sigma/Gigachad',type:'video',user:'sigma.edits',avatar:'⚡',title:'Gus Fring Sigma',caption:'I will kill your infant daughter 🗿 #gusfring #breakingbad #sigma',src:'https://www.youtube.com/embed/4vMfsEtFmlE',aspect:'portrait',likes:78900},
+
+  // Skibidi / Gen-Z
+  {id:24,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'skibidi.toilet',avatar:'🚽',title:'Skibidi Toilet',caption:'Skibidi bop bop bop yes yes 🚽💀 #skibiditoilet #genz',src:'https://www.youtube.com/embed/tsc3d2kMfLM',aspect:'portrait',likes:156000},
+  {id:25,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'ohio.final.boss',avatar:'💀',title:'Only in Ohio',caption:'Ohio is not a real place 💀 #ohio #onlyinohio #brainrot',src:'https://www.youtube.com/embed/r3-EqMTJz7U',aspect:'portrait',likes:89400},
+  {id:26,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'rizz.god',avatar:'😏',title:'Rizz Compilation',caption:'W rizz or L rizz? 😏 #rizz #genz #brainrot',src:'https://www.youtube.com/embed/If8F-sGnL3Q',aspect:'portrait',likes:104200},
+  {id:27,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'skibidi.toilet',avatar:'🚽',title:'Skibidi Toilet vs Cameraman',caption:'The lore goes DEEP 📚🚽 #skibiditoilet #cameraman',src:'https://www.youtube.com/embed/K8DBs0QLqq4',aspect:'portrait',likes:201000},
+  {id:28,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'sussy.baka',avatar:'📮',title:'Among Us in Real Life',caption:'SUSSY BAKA 📮 #amongus #sus #brainrot',src:'https://www.youtube.com/embed/dJ-3_XM2rVI',aspect:'portrait',likes:67800},
+  {id:29,cat:'🚽 Skibidi/Gen-Z',type:'video',user:'genz.brain',avatar:'🧠',title:'Brainrot Vocabulary Test',caption:'Skibidi gyatt rizz ohio sigma fanum tax 🧠💀 #brainrot #genz',src:'https://www.youtube.com/embed/FG1gJiFNBWo',aspect:'portrait',likes:92100},
+
+  // Wholesome
+  {id:30,cat:'🥰 Wholesome',type:'video',user:'wholesome.daily',avatar:'🥰',title:'Dog Reunites With Owner',caption:'The way his tail wags 😭❤️ #wholesome #dogs #reunion',src:'https://www.youtube.com/embed/mI1wJIP2g9o',aspect:'landscape',likes:245000},
+  {id:31,cat:'🥰 Wholesome',type:'video',user:'cute.overload',avatar:'🐱',title:'Cat Being Adorable',caption:'I would die for this cat 🐱💕 #cats #cute #wholesome',src:'https://www.youtube.com/embed/hY7m5jjJ9mM',aspect:'landscape',likes:187000},
+  {id:32,cat:'🥰 Wholesome',type:'video',user:'wholesome.daily',avatar:'🥰',title:'Baby Laughing',caption:'This baby laugh cures depression 😂👶 #baby #wholesome #laugh',src:'https://www.youtube.com/embed/RP4abiHdQpc',aspect:'landscape',likes:312000},
+  {id:33,cat:'🥰 Wholesome',type:'image',user:'cute.overload',avatar:'🐱',title:'Smol Kitten',caption:'So smol 🥺💕 #kitten #cute #wholesome',src:'https://i.imgur.com/pn2Kdml.jpg',likes:156000},
+  {id:34,cat:'🥰 Wholesome',type:'video',user:'feel.good',avatar:'✨',title:'Random Acts of Kindness',caption:'Faith in humanity restored 🥹 #kindness #wholesome #faith',src:'https://www.youtube.com/embed/nwAYpLVyeFU',aspect:'landscape',likes:198000},
+  {id:35,cat:'🥰 Wholesome',type:'video',user:'wholesome.daily',avatar:'🥰',title:'Soldier Surprise Homecoming',caption:'Try not to cry challenge (impossible) 😭🇺🇸 #military #homecoming #wholesome',src:'https://www.youtube.com/embed/O5Yjb0Ycosmk',aspect:'landscape',likes:278000},
+
+  // More Italian
+  {id:36,cat:'🇮🇹 Italian Brainrot',type:'video',user:'capuccino.assassino',avatar:'☕',title:'Capuccino Assassino',caption:'Capuccino Assassino ☕🔪 the most dangerous coffee #italianbrainrot',src:'https://www.youtube.com/embed/6NQFM5VGU6w',aspect:'portrait',likes:44500},
+  {id:37,cat:'🇮🇹 Italian Brainrot',type:'video',user:'brainrot.italia',avatar:'🐊',title:'Glorbo Fruttodrago',caption:'Glorbo the fruit dragon 🐉🍎 Italian brainrot keeps evolving #glorbo',src:'https://www.youtube.com/embed/sqFa1IMqRew',aspect:'portrait',likes:27800},
+
+  // More memes
+  {id:38,cat:'🐸 Classic Memes',type:'image',user:'meme.archive',avatar:'🐸',title:'Surprised Pikachu',caption:'When you skip studying and fail the exam ⚡😮 #surprisedpikachu',src:'https://i.imgflip.com/2kbn1e.jpg',likes:105000},
+  {id:39,cat:'🐸 Classic Memes',type:'image',user:'classic.memes',avatar:'😂',title:'Woman Yelling at Cat',caption:'The collab we never knew we needed 🐱🗣️ #womanyelling #smudge',src:'https://i.imgflip.com/345v97.jpg',likes:115000},
+  {id:40,cat:'💪 Sigma/Gigachad',type:'video',user:'sigma.edits',avatar:'⚡',title:'Mike Ehrmantraut Sigma',caption:'Kid named finger 🗿 #mikeehrmantraut #sigma #breakingbad',src:'https://www.youtube.com/embed/WzhW20hLp6M',aspect:'portrait',likes:65400},
 ];
 
-const categories = ['all', ...new Set(memes.map(m => m.cat))];
-let activeCategory = 'all';
+// ===== STATE =====
+let currentCat = 'All';
+let favorites = JSON.parse(localStorage.getItem('mba_favs')||'[]');
+let currentShareId = null;
 
-function renderTabs() {
-  const tabsEl = document.getElementById('tabs');
-  tabsEl.innerHTML = categories.map(c => 
-    `<button class="tab ${c === activeCategory ? 'active' : ''}" onclick="filterCategory('${c}')">${c === 'all' ? '🔥 All' : c.charAt(0).toUpperCase() + c.slice(1)}</button>`
-  ).join('');
+// ===== STORIES =====
+function renderStories(){
+  const users = [...new Set(CONTENT.map(c=>c.user))].slice(0,12);
+  document.getElementById('storiesBar').innerHTML = users.map(u=>{
+    const c = CONTENT.find(x=>x.user===u);
+    return `<div class="story" onclick="showToast('Stories coming soon!')"><div class="ring"><img src="https://api.dicebear.com/7.x/fun-emoji/svg?seed=${u}" alt="${u}"></div><div class="name">${u}</div></div>`;
+  }).join('');
 }
 
-function renderMemes(list) {
-  const grid = document.getElementById('memeGrid');
-  grid.innerHTML = list.map((m, i) => `
-    <div class="meme-card" style="animation-delay:${i * 0.05}s" onclick="openLightbox('${m.img.replace(/'/g,"\\'")}', '${m.name.replace(/'/g,"\\'")}')">
-      <img src="${m.img}" alt="${m.name}" loading="lazy">
-      <div class="meme-info">
-        <div class="meme-name">${m.name}</div>
-        <div class="meme-year">${m.year}</div>
-        <span class="meme-tag">${m.cat}</span>
+// ===== CATEGORY TABS =====
+function renderTabs(){
+  document.getElementById('catTabs').innerHTML = CATEGORIES.map(c=>
+    `<div class="cat-tab${c===currentCat?' active':''}" onclick="filterCat('${c}')">${c}</div>`
+  ).join('');
+}
+function filterCat(cat){
+  currentCat=cat;
+  renderTabs();
+  renderFeed();
+}
+
+// ===== FEED =====
+function renderFeed(){
+  const items = currentCat==='All'?CONTENT:CONTENT.filter(c=>c.cat===currentCat);
+  document.getElementById('feedSection').innerHTML = items.map(c=>postHTML(c)).join('') +
+    `<div class="site-footer"><div class="brand">MemeByApex</div><p style="margin-top:8px">Made by Wadeem for Doublespeed</p><p style="margin-top:4px">© 2026 · All memes belong to their creators</p></div>`;
+}
+
+function postHTML(c){
+  const isFav = favorites.includes(c.id);
+  const media = c.type==='video'
+    ? `<iframe src="${c.src}?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe>`
+    : `<img src="${c.src}" alt="${c.title}" loading="lazy">`;
+  const aspectClass = c.aspect==='landscape'?'landscape':c.aspect==='square'?'square':'';
+  return `<article class="post" data-id="${c.id}">
+    <div class="post-header">
+      <img class="avatar" src="https://api.dicebear.com/7.x/fun-emoji/svg?seed=${c.user}" alt="">
+      <div class="info"><div class="username">${c.user}</div><div class="category-badge">${c.cat}</div></div>
+      <div class="more" onclick="openShareModal(${c.id})">⋯</div>
+    </div>
+    <div class="post-media ${aspectClass}" ondblclick="doubleTapLike(this,${c.id})">
+      ${media}
+      <div class="heart-overlay">❤️</div>
+    </div>
+    <div class="post-actions">
+      <div class="left">
+        <button class="action-btn ${isLiked(c.id)?'liked':''}" onclick="toggleLike(this,${c.id})">❤️</button>
+        <button class="action-btn" onclick="showToast('Comments coming soon!')">💬</button>
+        <button class="action-btn" onclick="openShareModal(${c.id})">🔗</button>
       </div>
+      <button class="action-btn ${isFav?'saved':''}" onclick="toggleSave(this,${c.id})">🔖</button>
+    </div>
+    <div class="post-likes" id="likes-${c.id}">${formatNum(c.likes + (isLiked(c.id)?1:0))} likes</div>
+    <div class="post-caption"><span class="cap-user">${c.user}</span>${c.caption}</div>
+  </article>`;
+}
+
+// ===== REELS =====
+function renderReels(){
+  const vids = CONTENT.filter(c=>c.type==='video'&&c.aspect==='portrait');
+  document.getElementById('reelsContainer').innerHTML = vids.map(c=>`
+    <div class="reel">
+      <iframe src="${c.src}?rel=0&autoplay=0&modestbranding=1" allowfullscreen></iframe>
+      <div class="reel-side">
+        <div class="rbtn" onclick="showToast('Liked!')"><span>❤️</span><span>${formatNum(c.likes)}</span></div>
+        <div class="rbtn" onclick="showToast('Comments soon!')"><span>💬</span><span>Reply</span></div>
+        <div class="rbtn" onclick="openShareModal(${c.id})"><span>🔗</span><span>Share</span></div>
+        <div class="rbtn" onclick="toggleSaveReel(${c.id})"><span>🔖</span><span>Save</span></div>
+      </div>
+      <div class="reel-info"><div class="reel-user">${c.user}</div><div class="reel-desc">${c.caption}</div></div>
     </div>
   `).join('');
 }
 
-function filterCategory(cat) {
-  activeCategory = cat;
-  renderTabs();
-  const filtered = cat === 'all' ? [...memes] : memes.filter(m => m.cat === cat);
-  renderMemes(filtered);
+// ===== EXPLORE =====
+function renderExplore(){
+  const shuffled = [...CONTENT].sort(()=>Math.random()-.5);
+  document.getElementById('exploreGrid').innerHTML = shuffled.map(c=>{
+    if(c.type==='video') return `<div class="explore-item" onclick="switchTab('home');filterCat('${c.cat}')"><img src="https://img.youtube.com/vi/${getYTId(c.src)}/hqdefault.jpg" alt="${c.title}"><span class="play-icon">▶️</span></div>`;
+    return `<div class="explore-item" onclick="switchTab('home');filterCat('${c.cat}')"><img src="${c.src}" alt="${c.title}"></div>`;
+  }).join('');
 }
 
-function shuffleMemes() {
-  const list = activeCategory === 'all' ? [...memes] : memes.filter(m => m.cat === activeCategory);
-  for (let i = list.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [list[i], list[j]] = [list[j], list[i]];
+// ===== FAVORITES =====
+function renderFavorites(){
+  const favItems = CONTENT.filter(c=>favorites.includes(c.id));
+  if(!favItems.length){document.getElementById('favContent').innerHTML='<div class="fav-empty"><p style="font-size:40px">🔖</p><p style="margin-top:12px">Save posts to see them here</p></div>';return;}
+  document.getElementById('favContent').innerHTML = '<div class="fav-grid">'+favItems.map(c=>{
+    if(c.type==='video') return `<div class="explore-item"><img src="https://img.youtube.com/vi/${getYTId(c.src)}/hqdefault.jpg" alt="${c.title}"><span class="play-icon">▶️</span></div>`;
+    return `<div class="explore-item"><img src="${c.src}" alt="${c.title}"></div>`;
+  }).join('')+'</div>';
+}
+
+// ===== NAVIGATION =====
+function switchTab(tab){
+  document.querySelectorAll('.bnav').forEach((b,i)=>{b.classList.toggle('active',['home','explore','reels','saved'][i]===tab)});
+  document.getElementById('feedSection').style.display=tab==='home'?'':'none';
+  document.getElementById('siteFooter').style.display=tab==='home'?'':'none';
+  document.getElementById('exploreSection').style.display=tab==='explore'?'':'none';
+  document.getElementById('reelsSection').style.display=tab==='reels'?'':'none';
+  document.getElementById('favSection').style.display=tab==='saved'?'':'none';
+  document.querySelector('.stories-bar').style.display=tab==='home'?'':'none';
+  document.querySelector('.cat-tabs').style.display=(tab==='home'||tab==='explore')?'':'none';
+  if(tab==='reels')renderReels();
+  if(tab==='explore')renderExplore();
+  if(tab==='saved')renderFavorites();
+}
+
+// ===== INTERACTIONS =====
+let likedPosts = JSON.parse(localStorage.getItem('mba_likes')||'[]');
+function isLiked(id){return likedPosts.includes(id)}
+function toggleLike(btn,id){
+  if(likedPosts.includes(id)){likedPosts=likedPosts.filter(x=>x!==id);btn.classList.remove('liked')}
+  else{likedPosts.push(id);btn.classList.add('liked')}
+  localStorage.setItem('mba_likes',JSON.stringify(likedPosts));
+  const c=CONTENT.find(x=>x.id===id);
+  document.getElementById('likes-'+id).textContent=formatNum(c.likes+(isLiked(id)?1:0))+' likes';
+}
+function doubleTapLike(el,id){
+  if(!likedPosts.includes(id)){likedPosts.push(id);localStorage.setItem('mba_likes',JSON.stringify(likedPosts));
+    const btn=el.closest('.post').querySelector('.action-btn');btn.classList.add('liked');
+    const c=CONTENT.find(x=>x.id===id);document.getElementById('likes-'+id).textContent=formatNum(c.likes+1)+' likes';
   }
-  renderMemes(list);
+  const h=el.querySelector('.heart-overlay');h.classList.remove('pop');void h.offsetWidth;h.classList.add('pop');
+}
+function toggleSave(btn,id){
+  if(favorites.includes(id)){favorites=favorites.filter(x=>x!==id);btn.classList.remove('saved');showToast('Removed from saved')}
+  else{favorites.push(id);btn.classList.add('saved');showToast('Saved! 🔖')}
+  localStorage.setItem('mba_favs',JSON.stringify(favorites));
+}
+function toggleSaveReel(id){
+  if(favorites.includes(id)){favorites=favorites.filter(x=>x!==id);showToast('Removed from saved')}
+  else{favorites.push(id);showToast('Saved! 🔖')}
+  localStorage.setItem('mba_favs',JSON.stringify(favorites));
 }
 
-function openLightbox(src, title) {
-  document.getElementById('lightboxImg').src = src;
-  document.getElementById('lightboxTitle').textContent = title;
-  document.getElementById('lightbox').classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
+// ===== SHARE =====
+function openShareModal(id){currentShareId=id;document.getElementById('shareModal').classList.add('show')}
+function closeShareModal(){document.getElementById('shareModal').classList.remove('show')}
+function copyLink(){navigator.clipboard.writeText('https://alisuleman27.github.io/memebyapex/');closeShareModal();showToast('Link copied! 🔗')}
+function shareTwitter(){window.open('https://twitter.com/intent/tweet?text=Check+this+brainrot&url=https://alisuleman27.github.io/memebyapex/');closeShareModal()}
+function shareWhatsApp(){window.open('https://wa.me/?text=Check+this+brainrot+https://alisuleman27.github.io/memebyapex/');closeShareModal()}
+function shareTelegram(){window.open('https://t.me/share/url?url=https://alisuleman27.github.io/memebyapex/&text=Brainrot+content');closeShareModal()}
 
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('show');
-  document.body.style.overflow = '';
-}
+// ===== UTILS =====
+function formatNum(n){if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n}
+function getYTId(url){const m=url.match(/embed\/([^?]+)/);return m?m[1]:''}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+function toggleDarkLight(){document.body.style.background=document.body.style.background==='#fff'?'#000':'#fff';document.body.style.color=document.body.style.color==='#000'?'#fff':'#000'}
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+// Click outside share modal to close
+document.getElementById('shareModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeShareModal()});
 
-// Init
-renderTabs();
-shuffleMemes();
+// ===== INIT =====
+renderStories();renderTabs();renderFeed();
 </script>
-
 </body>
 </html>
